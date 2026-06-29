@@ -20,8 +20,20 @@
             }
 
             btn.addEventListener('click', function() {
-                body.classList.toggle('light');
-                localStorage.setItem('theme', body.classList.contains('light') ? 'light' : 'dark');
+                if (body.classList.contains('light')) {
+                    body.classList.remove('light');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    body.classList.add('light');
+                    localStorage.setItem('theme', 'light');
+                }
+                btn.classList.remove('animating');
+                void btn.offsetWidth;
+                btn.classList.add('animating');
+            });
+
+            btn.addEventListener('animationend', function() {
+                btn.classList.remove('animating');
             });
         });
     </script>
