@@ -10,8 +10,8 @@ html, body {
     position: fixed;
     top: 25px;
     right: 25px;
-    width: 260px;
-    height: 85px;
+    width: 200px;
+    height: 70px;
     background-color: #535e40;
     border-radius: 20px;
     border: none;
@@ -23,8 +23,8 @@ html, body {
     top: 50%;
     transform: translateY(-50%);
     left: 10px;
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     background-color: #202419;
     border-radius: 10px;
     cursor: pointer;
@@ -34,7 +34,7 @@ html, body {
 }
 @keyframes slideColor {
     0% { left: 10px; background-color: #202419; }
-    100% { left: calc(100% - 10px - 40px); background-color: #ced5c3; }
+    100% { left: calc(100% - 10px - 50px); background-color: #ced5c3; }
 }
 body.light {
     background-color: #9dac86;
@@ -43,40 +43,43 @@ body.light .rectangle {
     border-top-color: #ffffff;
 }
 body.light .square {
-    left: calc(100% - 10px - 40px);
+    left: calc(100% - 10px - 50px);
     background-color: #ced5c3;
 }
 body.light .square.animating {
     animation: slideColorBack 0.7s forwards;
 }
 @keyframes slideColorBack {
-    0% { left: calc(100% - 10px - 40px); background-color: #ced5c3; }
+    0% { left: calc(100% - 10px - 50px); background-color: #ced5c3; }
     100% { left: 10px; background-color: #202419; }
 }
 @media (max-width: 768px) {
     .rectangle {
         top: 15px;
         right: 15px;
-        width: 140px;
+        width: 130px;
         height: 55px;
         border-radius: 14px;
     }
     .square {
-        width: 30px;
-        height: 30px;
+        width: 40px;
+        height: 40px;
         left: 8px;
         border-radius: 8px;
     }
+    .square.animating {
+        animation-duration: 1.2s;
+    }
     @keyframes slideColor {
         0% { left: 8px; background-color: #202419; }
-        100% { left: calc(100% - 8px - 30px); background-color: #ced5c3; }
+        100% { left: calc(100% - 8px - 40px); background-color: #ced5c3; }
     }
     @keyframes slideColorBack {
-        0% { left: calc(100% - 8px - 30px); background-color: #ced5c3; }
+        0% { left: calc(100% - 8px - 40px); background-color: #ced5c3; }
         100% { left: 8px; background-color: #202419; }
     }
     body.light .square {
-        left: calc(100% - 8px - 30px);
+        left: calc(100% - 8px - 40px);
     }
 }
 @media (max-width: 480px) {
@@ -88,20 +91,23 @@ body.light .square.animating {
         border-radius: 12px;
     }
     .square {
-        width: 24px;
-        height: 24px;
+        width: 34px;
+        height: 34px;
         left: 6px;
         border-radius: 6px;
     }
+    .square.animating {
+        animation-duration: 1.2s;
+    }
     @keyframes slideColor {
         0% { left: 6px; background-color: #202419; }
-        100% { left: calc(100% - 6px - 24px); background-color: #ced5c3; }
+        100% { left: calc(100% - 6px - 34px); background-color: #ced5c3; }
     }
     @keyframes slideColorBack {
-        0% { left: calc(100% - 6px - 24px); background-color: #ced5c3; }
+        0% { left: calc(100% - 6px - 34px); background-color: #ced5c3; }
         100% { left: 6px; background-color: #202419; }
     }
     body.light .square {
-        left: calc(100% - 6px - 24px);
+        left: calc(100% - 6px - 34px);
     }
 }
