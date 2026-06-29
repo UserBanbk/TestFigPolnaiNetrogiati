@@ -20,16 +20,8 @@
             }
 
             btn.addEventListener('click', function() {
-                if (body.classList.contains('light')) {
-                    return;
-                }
-                btn.classList.add('animating');
-                btn.addEventListener('animationend', function onEnd() {
-                    btn.classList.remove('animating');
-                    body.classList.add('light');
-                    localStorage.setItem('theme', 'light');
-                    btn.removeEventListener('animationend', onEnd);
-                });
+                body.classList.toggle('light');
+                localStorage.setItem('theme', body.classList.contains('light') ? 'light' : 'dark');
             });
         });
     </script>
