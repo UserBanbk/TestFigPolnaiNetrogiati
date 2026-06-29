@@ -19,24 +19,19 @@
             background-color: #535e40;
             border-radius: 20px;
             border: 1px solid #202419;
-            /* базовые размеры для ПК (широкий) */
             width: 260px;
             height: 85px;
         }
-
-        /* оптимизация для телефонов (экраны до 768px) */
         @media (max-width: 768px) {
             .rectangle {
                 top: 15px;
                 right: 15px;
-                width: 140px;   /* меньше, чтобы не казался огромным */
+                width: 140px;
                 height: 55px;
                 border-radius: 14px;
                 border-width: 1px;
             }
         }
-
-        /* для очень маленьких телефонов (до 480px) — ещё мельче */
         @media (max-width: 480px) {
             .rectangle {
                 width: 110px;
