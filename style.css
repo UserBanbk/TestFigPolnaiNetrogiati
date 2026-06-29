@@ -17,6 +17,7 @@ html, body {
     border: none;
     border-top: 1px solid #202419;
     box-sizing: border-box;
+    transition: border-top-color 0.7s;
 }
 .square {
     position: absolute;
@@ -28,13 +29,7 @@ html, body {
     background-color: #202419;
     border-radius: 8px;
     cursor: pointer;
-}
-.square.animating {
-    animation: slideColor 0.7s forwards;
-}
-@keyframes slideColor {
-    0% { left: 8px; background-color: #202419; }
-    100% { left: calc(100% - 8px - 44px); background-color: #ced5c3; }
+    transition: left 0.7s, background-color 0.7s;
 }
 body.light {
     background-color: #9dac86;
@@ -45,13 +40,6 @@ body.light .rectangle {
 body.light .square {
     left: calc(100% - 8px - 44px);
     background-color: #ced5c3;
-}
-body.light .square.animating {
-    animation: slideColorBack 0.7s forwards;
-}
-@keyframes slideColorBack {
-    0% { left: calc(100% - 8px - 44px); background-color: #ced5c3; }
-    100% { left: 8px; background-color: #202419; }
 }
 @media (max-width: 768px) {
     .rectangle {
@@ -66,17 +54,7 @@ body.light .square.animating {
         height: 40px;
         left: 8px;
         border-radius: 8px;
-    }
-    .square.animating {
-        animation-duration: 1.5s;
-    }
-    @keyframes slideColor {
-        0% { left: 8px; background-color: #202419; }
-        100% { left: calc(100% - 8px - 40px); background-color: #ced5c3; }
-    }
-    @keyframes slideColorBack {
-        0% { left: calc(100% - 8px - 40px); background-color: #ced5c3; }
-        100% { left: 8px; background-color: #202419; }
+        transition-duration: 1.5s;
     }
     body.light .square {
         left: calc(100% - 8px - 40px);
@@ -95,17 +73,7 @@ body.light .square.animating {
         height: 34px;
         left: 6px;
         border-radius: 6px;
-    }
-    .square.animating {
-        animation-duration: 1.5s;
-    }
-    @keyframes slideColor {
-        0% { left: 6px; background-color: #202419; }
-        100% { left: calc(100% - 6px - 34px); background-color: #ced5c3; }
-    }
-    @keyframes slideColorBack {
-        0% { left: calc(100% - 6px - 34px); background-color: #ced5c3; }
-        100% { left: 6px; background-color: #202419; }
+        transition-duration: 1.5s;
     }
     body.light .square {
         left: calc(100% - 6px - 34px);
