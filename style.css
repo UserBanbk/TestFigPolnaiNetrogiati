@@ -23,12 +23,18 @@ html, body {
     top: 50%;
     transform: translateY(-50%);
     left: 10px;
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
     background-color: #202419;
     border-radius: 10px;
     cursor: pointer;
-    transition: left 0.8s, background-color 0.8s;
+}
+.square.animating {
+    animation: slideColor 0.7s forwards;
+}
+@keyframes slideColor {
+    0% { left: 10px; background-color: #202419; }
+    100% { left: calc(100% - 10px - 40px); background-color: #ced5c3; }
 }
 body.light {
     background-color: #9dac86;
@@ -37,8 +43,15 @@ body.light .rectangle {
     border-top-color: #ffffff;
 }
 body.light .square {
-    left: calc(100% - 10px - 45px);
+    left: calc(100% - 10px - 40px);
     background-color: #ced5c3;
+}
+body.light .square.animating {
+    animation: slideColorBack 0.7s forwards;
+}
+@keyframes slideColorBack {
+    0% { left: calc(100% - 10px - 40px); background-color: #ced5c3; }
+    100% { left: 10px; background-color: #202419; }
 }
 @media (max-width: 768px) {
     .rectangle {
@@ -49,13 +62,21 @@ body.light .square {
         border-radius: 14px;
     }
     .square {
-        width: 35px;
-        height: 35px;
+        width: 30px;
+        height: 30px;
         left: 8px;
         border-radius: 8px;
     }
+    @keyframes slideColor {
+        0% { left: 8px; background-color: #202419; }
+        100% { left: calc(100% - 8px - 30px); background-color: #ced5c3; }
+    }
+    @keyframes slideColorBack {
+        0% { left: calc(100% - 8px - 30px); background-color: #ced5c3; }
+        100% { left: 8px; background-color: #202419; }
+    }
     body.light .square {
-        left: calc(100% - 8px - 35px);
+        left: calc(100% - 8px - 30px);
     }
 }
 @media (max-width: 480px) {
@@ -67,12 +88,20 @@ body.light .square {
         border-radius: 12px;
     }
     .square {
-        width: 28px;
-        height: 28px;
+        width: 24px;
+        height: 24px;
         left: 6px;
         border-radius: 6px;
     }
+    @keyframes slideColor {
+        0% { left: 6px; background-color: #202419; }
+        100% { left: calc(100% - 6px - 24px); background-color: #ced5c3; }
+    }
+    @keyframes slideColorBack {
+        0% { left: calc(100% - 6px - 24px); background-color: #ced5c3; }
+        100% { left: 6px; background-color: #202419; }
+    }
     body.light .square {
-        left: calc(100% - 6px - 28px);
+        left: calc(100% - 6px - 24px);
     }
 }
