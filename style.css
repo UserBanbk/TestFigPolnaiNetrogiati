@@ -4,88 +4,46 @@ html, body {
     width: 100%;
     height: 100%;
     background-color: #23271b;
-    transition: background-color 0.8s ease;
+    transition: background-color 0.5s;
 }
 .rectangle {
     position: fixed;
     top: 25px;
     right: 25px;
-    background-color: #535e40;
-    border-radius: 20px;
-    border: 1px solid #202419;
     width: 260px;
     height: 85px;
-    transition: background-color 0.8s ease;
+    background-color: #535e40;
+    border-radius: 20px;
+    border: none;
+    border-top: 1px solid #202419;
+    box-sizing: border-box;
 }
 .square {
     position: absolute;
-    left: 12px;
     top: 50%;
     transform: translateY(-50%);
-    width: 32px;
-    height: 32px;
+    left: 10px;
+    width: 60px;
+    height: 60px;
     background-color: #202419;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
+    transition: none;
 }
-.square.animate {
-    animation: moveAndChangeDesktop 1.8s forwards;
+.square.animating {
+    animation: moveAndColor 0.8s forwards;
 }
-@keyframes moveAndChangeDesktop {
-    0% { left: 12px; background-color: #202419; }
-    25% { background-color: #4a5a3a; }
-    50% { background-color: #7a9a6a; }
-    75% { background-color: #aaba8a; }
-    100% { left: calc(100% - 44px); background-color: #ced5c3; }
+@keyframes moveAndColor {
+    0% { left: 10px; background-color: #202419; }
+    100% { left: calc(100% - 10px - 60px); background-color: #ced5c3; }
 }
-@media (max-width: 768px) {
-    .rectangle {
-        top: 15px;
-        right: 15px;
-        width: 140px;
-        height: 55px;
-        border-radius: 14px;
-        border-width: 1px;
-    }
-    .square {
-        width: 22px;
-        height: 22px;
-        left: 8px;
-        border-radius: 6px;
-    }
-    .square.animate {
-        animation-name: moveAndChangeTablet;
-    }
-    @keyframes moveAndChangeTablet {
-        0% { left: 8px; background-color: #202419; }
-        25% { background-color: #4a5a3a; }
-        50% { background-color: #7a9a6a; }
-        75% { background-color: #aaba8a; }
-        100% { left: calc(100% - 30px); background-color: #ced5c3; }
-    }
+body.light {
+    background-color: #9dac86;
 }
-@media (max-width: 480px) {
-    .rectangle {
-        width: 110px;
-        height: 45px;
-        top: 10px;
-        right: 10px;
-        border-radius: 12px;
-    }
-    .square {
-        width: 18px;
-        height: 18px;
-        left: 6px;
-        border-radius: 5px;
-    }
-    .square.animate {
-        animation-name: moveAndChangePhone;
-    }
-    @keyframes moveAndChangePhone {
-        0% { left: 6px; background-color: #202419; }
-        25% { background-color: #4a5a3a; }
-        50% { background-color: #7a9a6a; }
-        75% { background-color: #aaba8a; }
-        100% { left: calc(100% - 24px); background-color: #ced5c3; }
-    }
+body.light .rectangle {
+    border-top-color: #ffffff;
+}
+body.light .square {
+    background-color: #809164;
+    left: calc(100% - 10px - 60px);
 }
