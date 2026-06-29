@@ -10,10 +10,10 @@ html, body {
     position: fixed;
     top: 25px;
     right: 25px;
-    width: 200px;
-    height: 70px;
+    width: 160px;
+    height: 60px;
     background-color: #535e40;
-    border-radius: 20px;
+    border-radius: 16px;
     border: none;
     border-top: 1px solid #202419;
     box-sizing: border-box;
@@ -22,19 +22,19 @@ html, body {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    left: 10px;
-    width: 50px;
-    height: 50px;
+    left: 8px;
+    width: 44px;
+    height: 44px;
     background-color: #202419;
-    border-radius: 10px;
+    border-radius: 8px;
     cursor: pointer;
 }
 .square.animating {
     animation: slideColor 0.7s forwards;
 }
 @keyframes slideColor {
-    0% { left: 10px; background-color: #202419; }
-    100% { left: calc(100% - 10px - 50px); background-color: #ced5c3; }
+    0% { left: 8px; background-color: #202419; }
+    100% { left: calc(100% - 8px - 44px); background-color: #ced5c3; }
 }
 body.light {
     background-color: #9dac86;
@@ -43,15 +43,15 @@ body.light .rectangle {
     border-top-color: #ffffff;
 }
 body.light .square {
-    left: calc(100% - 10px - 50px);
+    left: calc(100% - 8px - 44px);
     background-color: #ced5c3;
 }
 body.light .square.animating {
     animation: slideColorBack 0.7s forwards;
 }
 @keyframes slideColorBack {
-    0% { left: calc(100% - 10px - 50px); background-color: #ced5c3; }
-    100% { left: 10px; background-color: #202419; }
+    0% { left: calc(100% - 8px - 44px); background-color: #ced5c3; }
+    100% { left: 8px; background-color: #202419; }
 }
 @media (max-width: 768px) {
     .rectangle {
@@ -68,7 +68,7 @@ body.light .square.animating {
         border-radius: 8px;
     }
     .square.animating {
-        animation-duration: 1.2s;
+        animation-duration: 1.5s;
     }
     @keyframes slideColor {
         0% { left: 8px; background-color: #202419; }
@@ -97,7 +97,7 @@ body.light .square.animating {
         border-radius: 6px;
     }
     .square.animating {
-        animation-duration: 1.2s;
+        animation-duration: 1.5s;
     }
     @keyframes slideColor {
         0% { left: 6px; background-color: #202419; }
