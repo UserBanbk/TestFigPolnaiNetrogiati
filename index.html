@@ -4,28 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Пустой сайт</title>
-    <link rel="stylesheet" href="Effective.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="rectangle">
-        <div class="square" id="square"></div>
+        <div class="square" id="toggleBtn"></div>
     </div>
     <script>
-        const square = document.getElementById('square');
-        const body = document.body;
-        const rect = document.querySelector('.rectangle');
+        document.addEventListener('DOMContentLoaded', function() {
+            const btn = document.getElementById('toggleBtn');
+            const body = document.body;
 
-        square.addEventListener('click', function() {
-            if (!this.classList.contains('animate')) {
-                this.classList.add('animate');
+            if (localStorage.getItem('theme') === 'light') {
+                body.classList.add('light');
             }
-        });
 
-        square.addEventListener('animationend', function() {
-            body.style.backgroundColor = '#9dac86';
-            rect.style.backgroundColor = '#809164';
-            this.style.backgroundColor = '#ced5c3';
-            this.classList.remove('animate'); 
+            btn.addEventListener('click', function() {
+                if (body.classList.contains('light')) {
+                    return;
+                }
+                btn.classList.add('animating');
+                btn.addEventListener('animationend', function onEnd() {
+                    btn.classList.remove('animating');
+                    body.classList.add('light');
+                    localStorage.setItem('theme', 'light');
+                    btn.removeEventListener('animationend', onEnd);
+                });
+            });
         });
     </script>
 </body>
