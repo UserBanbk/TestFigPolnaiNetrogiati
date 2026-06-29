@@ -4,33 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Пустой сайт</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background-color: #23271b;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+    </style>
 </head>
 <body>
-    <div class="rectangle">
-        <div class="square" id="toggleBtn"></div>
-    </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const btn = document.getElementById('toggleBtn');
-            const body = document.body;
-            let isAnimating = false;
-
-            // При загрузке — тёмная тема (класса light нет)
-            body.classList.remove('light');
-
-            function handleTransitionEnd() {
-                isAnimating = false;
-                btn.removeEventListener('transitionend', handleTransitionEnd);
-            }
-
-            btn.addEventListener('click', function() {
-                if (isAnimating) return;
-                isAnimating = true;
-                body.classList.toggle('light');
-                btn.addEventListener('transitionend', handleTransitionEnd);
-            });
-        });
-    </script>
 </body>
 </html>
