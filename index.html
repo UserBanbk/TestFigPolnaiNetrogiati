@@ -15,25 +15,8 @@
             const btn = document.getElementById('toggleBtn');
             const body = document.body;
 
-            if (localStorage.getItem('theme') === 'light') {
-                body.classList.add('light');
-            }
-
             btn.addEventListener('click', function() {
-                if (body.classList.contains('light')) {
-                    body.classList.remove('light');
-                    localStorage.setItem('theme', 'dark');
-                } else {
-                    body.classList.add('light');
-                    localStorage.setItem('theme', 'light');
-                }
-                btn.classList.remove('animating');
-                void btn.offsetWidth;
-                btn.classList.add('animating');
-            });
-
-            btn.addEventListener('animationend', function() {
-                btn.classList.remove('animating');
+                body.classList.toggle('light');
             });
         });
     </script>
