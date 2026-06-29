@@ -3,7 +3,7 @@ html, body {
     padding: 0;
     width: 100%;
     height: 100%;
-    /* фон управляется через JS, поэтому transition не нужен */
+    /* фон управляется через JS, transition не нужен */
 }
 .rectangle {
     position: fixed;
