@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Регистрация</title>
+    <title>Крипта Банк</title>
     <link rel="stylesheet" href="main.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="notificationToast" class="notification-toast">
@@ -20,14 +20,14 @@
 
         <div id="authScreen" class="screen auth-wrapper active">
             <form id="registerForm" class="auth-form active">
-                <div class="input-group"><input type="text" id="regNick" placeholder="Ваш Ник" required></div>
-                <div class="input-group"><input type="email" id="regEmail" placeholder="Ваша Почта" required></div>
+                <div class="input-group"><input type="text" id="regNick" required></div>
+                <div class="input-group"><input type="email" id="regEmail" required></div>
                 <div class="input-group">
-                    <input type="password" id="regPass" placeholder="Пароль" required>
+                    <input type="password" id="regPass" required>
                     <span class="toggle-password" onclick="togglePasswordVisibility('regPass')">👁️</span>
                 </div>
                 <div class="input-group">
-                    <input type="password" id="regPassConfirm" placeholder="Повторите пароль" required>
+                    <input type="password" id="regPassConfirm" required>
                     <span class="toggle-password" onclick="togglePasswordVisibility('regPassConfirm')">👁️</span>
                 </div>
                 <button type="submit" class="submit-btn" id="regBtn">Зарегистрироваться</button>
@@ -35,10 +35,10 @@
             </form>
 
             <form id="loginForm" class="auth-form">
-                <div class="input-group"><input type="text" id="loginNick" placeholder="Ваш Ник" required></div>
-                <div class="input-group"><input type="email" id="loginEmail" placeholder="Почта для входа" required></div>
+                <div class="input-group"><input type="text" id="loginNick" required></div>
+                <div class="input-group"><input type="email" id="loginEmail" required></div>
                 <div class="input-group">
-                    <input type="password" id="loginPass" placeholder="Пароль" required>
+                    <input type="password" id="loginPass" required>
                     <span class="toggle-password" onclick="togglePasswordVisibility('loginPass')">👁️</span>
                 </div>
                 <button type="submit" class="submit-btn" id="loginBtn">Войти</button>
@@ -46,14 +46,118 @@
             </form>
         </div>
 
+        <!-- ИГРОВОЙ КАБИНЕТ -->
         <div id="dashboardScreen">
-            <button onclick="logout()" class="logout-btn">Выйти из аккаунта</button>
+            <div id="vasilScreen" class="vasil-screen">
+                <h1 style="font-size: 28px; font-weight: 900; color:#222;">Кошелек Vasil</h1>
+                <p style="color:#888;">Здесь пока пусто</p>
+                <button class="vasil-back-btn" onclick="closeVasil()">← Назад</button>
+            </div>
+
+            <div class="wallet-header">
+                <div class="wallet-avatar-area" onclick="triggerAvatarUpload()">
+                    <div class="wallet-avatar" id="avatarBox">V</div>
+                    <span class="avatar-hint" id="avatarHint">Нажми</span>
+                    <input type="file" id="avatarInput" accept="image/*" style="display:none;">
+                </div>
+                <div class="wallet-tabs">
+                    <div class="wallet-tab active" id="tabCrypto" onclick="switchToCrypto()">Крипто</div>
+                    <div class="wallet-tab vasil-tab" id="tabVasil" onclick="switchToVasil()">Vasil</div>
+                </div>
+            </div>
+
+            <!-- БАННЕР С БАЛАНСОМ -->
+            <div class="banner-card" onclick="openCurrencyModal()">
+                <div class="banner-title">Баланс: <span id="balanceCurrencySymbol">₽</span><span id="balanceNumber">0,00</span></div>
+                <div class="banner-small">Нажмите, чтобы сменить валюту</div>
+            </div>
+
+            <!-- ГЛАВНАЯ (МИНИ-ИГРЫ) -->
+            <div id="homeView" class="games-grid">
+                <div class="game-card purple-card" onclick="alert('В разработке!')">
+                    <div class="game-icon">🧸</div>
+                    <div class="game-title">Rocket Spin</div>
+                    <div class="game-desc">Поймай удачу!</div>
+                </div>
+                <div class="game-card blue-card" onclick="alert('В разработке!')">
+                    <div class="game-icon">🟤</div>
+                    <div class="game-title">Plinko</div>
+                    <div class="game-desc">Плинко с гифтами</div>
+                </div>
+                <div class="game-card cyan-card" onclick="alert('В разработке!')">
+                    <div class="game-icon">🚀</div>
+                    <div class="game-title">Мины</div>
+                    <div class="game-desc">Разминируй поле</div>
+                </div>
+                <div class="game-card green-card" onclick="alert('В разработке!')">
+                    <div class="game-icon">🥤</div>
+                    <div class="game-title">Стаканчики</div>
+                    <div class="game-desc">Кручу, верчу</div>
+                </div>
+            </div>
+
+            <!-- КОШЕЛЕК (СПИСОК МОНЕТ) -->
+            <div id="walletView" class="wallet-view">
+                <div class="wallet-actions">
+                    <div class="action-btn" onclick="alert('В разработке!')">
+                        <div class="action-icon">✈️</div>
+                        <div class="action-text">Перевести</div>
+                    </div>
+                    <div class="action-btn" onclick="alert('В разработке!')">
+                        <div class="action-icon">➕</div>
+                        <div class="action-text">Пополнить</div>
+                    </div>
+                    <div class="action-btn" onclick="alert('В разработке!')">
+                        <div class="action-icon">📤</div>
+                        <div class="action-text">Продать</div>
+                    </div>
+                    <div class="action-btn" onclick="alert('В разработке!')">
+                        <div class="action-icon">🔄</div>
+                        <div class="action-text">Обменять</div>
+                    </div>
+                </div>
+                <div class="wallet-list-title">Крипто · ВСЕГО: <span id="totalCryptoBalance">0,00</span> <span id="totalCryptoCurrency">₽</span></div>
+                <div id="cryptoListContainer"></div>
+                <div class="logout-wrapper">
+                    <button onclick="logout()" style="background:#ff4d4d; color:#fff; border:none; padding:15px 40px; border-radius:30px; font-weight:800; cursor:pointer; font-size:16px;">Выйти из аккаунта</button>
+                </div>
+            </div>
+
+            <!-- НИЖНЕЕ МЕНЮ -->
+            <div class="bottom-nav">
+                <div class="nav-item active" id="navHome" onclick="switchView('home')"><div class="nav-icon">🎮</div><span>Мини</span></div>
+                <div class="nav-item" id="navWallet" onclick="switchView('wallet')"><div class="nav-icon">🪙</div><span>Кошелек</span></div>
+                <div class="nav-item" onclick="alert('В разработке!')"><div class="nav-icon">🏆</div><span>Лидеры</span></div>
+                <div class="nav-item" onclick="alert('В разработке!')"><div class="nav-icon">🚀</div><span>Краш</span></div>
+                <div class="nav-item" onclick="alert('В разработке!')"><div class="nav-icon">👤</div><span>Профиль</span></div>
+            </div>
+        </div>
+
+        <!-- Модалка валют -->
+        <div id="currencyModal" class="currency-modal" onclick="closeCurrencyModal(event)">
+            <div class="currency-select">
+                <div style="color:#fff; font-weight:800; text-align:center; margin-bottom:5px;">Выберите валюту</div>
+                <div class="currency-option" onclick="setCurrency('₽', 'RUB')">Российский рубль (₽)</div>
+                <div class="currency-option" onclick="setCurrency('$', 'USD')">Доллар США ($)</div>
+                <div class="currency-option" onclick="setCurrency('Br', 'BYN')">Белорусский рубль (Br)</div>
+                <div class="currency-option" onclick="setCurrency('ЅМ', 'TJS')">Таджикский сомони (ЅМ)</div>
+                <div class="currency-option" onclick="setCurrency('€', 'EUR')">Евро (€)</div>
+                <div class="currency-option" onclick="setCurrency('₸', 'KZT')">Казахстанский тенге (₸)</div>
+                <div class="currency-option" onclick="setCurrency('₴', 'UAH')">Украинская гривна (₴)</div>
+            </div>
         </div>
     </div>
 
     <script>
         let db = JSON.parse(localStorage.getItem('cryptoBankDB')) || { users: [] };
+        let currentUser = null;
         function saveDB() { localStorage.setItem('cryptoBankDB', JSON.stringify(db)); }
+        
+        const savedEmail = localStorage.getItem('cryptoBankSession');
+        if (savedEmail) {
+            currentUser = db.users.find(u => u.email === savedEmail);
+            if (!currentUser) localStorage.removeItem('cryptoBankSession');
+        }
 
         function togglePasswordVisibility(id) {
             const input = document.getElementById(id);
@@ -85,13 +189,14 @@
             document.getElementById('authScreen').style.display = 'none';
             document.getElementById('headerSection').style.display = 'none';
             document.getElementById('dashboardScreen').style.display = 'flex';
+            loadUserData();
+            renderCryptoList();
         }
 
         document.getElementById('registerForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const btn = document.getElementById('regBtn');
             btn.textContent = 'Загрузка...';
-
             const nick = document.getElementById('regNick').value;
             const email = document.getElementById('regEmail').value;
             const pass = document.getElementById('regPass').value;
@@ -101,11 +206,11 @@
             if (db.users.find(u => u.nick === nick)) { showToast('Этот Ник занят!'); btn.textContent = 'Зарегистрироваться'; return; }
             if (db.users.find(u => u.email === email)) { showToast('Эта почта занята!'); btn.textContent = 'Зарегистрироваться'; return; }
 
-            db.users.push({ nick, email, pass, loginAttempts: 0, blockedUntil: null });
-            saveDB();
+            const newUser = { nick, email, pass, loginAttempts: 0, blockedUntil: null, avatar: null };
+            db.users.push(newUser); saveDB();
             localStorage.setItem('cryptoBankSession', email);
             showToast('Регистрация успешна!', true);
-            setTimeout(showDashboard, 500);
+            setTimeout(() => location.reload(), 600);
             btn.textContent = 'Зарегистрироваться';
         });
 
@@ -113,7 +218,6 @@
             e.preventDefault();
             const btn = document.getElementById('loginBtn');
             btn.textContent = 'Загрузка...';
-
             const nick = document.getElementById('loginNick').value;
             const email = document.getElementById('loginEmail').value;
             const pass = document.getElementById('loginPass').value;
@@ -129,29 +233,147 @@
                 user.loginAttempts = 0; user.blockedUntil = null; saveDB();
                 localStorage.setItem('cryptoBankSession', email);
                 showToast('Вход успешен!', true);
-                setTimeout(showDashboard, 500);
+                setTimeout(() => location.reload(), 600);
             } else {
                 user.loginAttempts = (user.loginAttempts || 0) + 1;
                 if (user.loginAttempts >= 3) {
                     user.blockedUntil = Date.now() + (24 * 60 * 60 * 1000); saveDB();
                     showToast('Попытки исчерпаны. Блок на 24 часа.');
                 } else {
-                    saveDB();
-                    showToast(`Неверный пароль. Осталось ${3 - user.loginAttempts} попыток.`);
+                    saveDB(); showToast(`Неверный пароль. Осталось ${3 - user.loginAttempts} попыток.`);
                 }
             }
             btn.textContent = 'Войти';
         });
 
-        const savedEmail = localStorage.getItem('cryptoBankSession');
-        if (savedEmail) {
-            const user = db.users.find(u => u.email === savedEmail);
-            if (user) { showDashboard(); } else { localStorage.removeItem('cryptoBankSession'); }
+        if (savedEmail && currentUser) { showDashboard(); }
+
+        function logout() { localStorage.removeItem('cryptoBankSession'); location.reload(); }
+
+        // ФУНКЦИИ КАБИНЕТА
+        function loadUserData() {
+            if (currentUser && currentUser.avatar) {
+                document.getElementById('avatarBox').innerHTML = `<img src="${currentUser.avatar}" alt="Avatar">`;
+                document.getElementById('avatarHint').style.display = 'none';
+            }
         }
 
-        function logout() { 
-            localStorage.removeItem('cryptoBankSession'); 
-            location.reload(); 
+        function triggerAvatarUpload() { document.getElementById('avatarInput').click(); }
+
+        document.getElementById('avatarInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const imageUrl = event.target.result;
+                    currentUser.avatar = imageUrl; saveDB();
+                    document.getElementById('avatarBox').innerHTML = `<img src="${imageUrl}" alt="Avatar">`;
+                    document.getElementById('avatarHint').style.display = 'none';
+                    showToast('Аватарка установлена!', true);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function switchView(view) {
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            document.getElementById('homeView').style.display = 'none';
+            document.getElementById('walletView').classList.remove('active');
+            document.getElementById('walletView').style.display = 'none';
+
+            if (view === 'home') {
+                document.getElementById('navHome').classList.add('active');
+                document.getElementById('homeView').style.display = 'grid';
+            } else if (view === 'wallet') {
+                document.getElementById('navWallet').classList.add('active');
+                document.getElementById('walletView').style.display = 'flex';
+                document.getElementById('walletView').classList.add('active');
+            }
+        }
+
+        function switchToVasil() {
+            document.getElementById('tabCrypto').classList.remove('active');
+            document.getElementById('tabVasil').classList.add('active');
+            document.getElementById('vasilScreen').classList.add('active');
+        }
+
+        function switchToCrypto() {
+            document.getElementById('tabVasil').classList.remove('active');
+            document.getElementById('tabCrypto').classList.add('active');
+            document.getElementById('vasilScreen').classList.remove('active');
+        }
+
+        function closeVasil() {
+            switchToCrypto();
+        }
+
+        function openCurrencyModal() { document.getElementById('currencyModal').classList.add('active'); }
+
+        function closeCurrencyModal(e) {
+            if(e.target === e.currentTarget) {
+                document.getElementById('currencyModal').classList.remove('active');
+            }
+        }
+
+        function setCurrency(symbol, code) {
+            document.getElementById('balanceCurrencySymbol').textContent = symbol;
+            document.getElementById('totalCryptoCurrency').textContent = symbol;
+            document.getElementById('currencyModal').classList.remove('active');
+            showToast(`Валюта изменена на ${code}`, true);
+        }
+
+        function renderCryptoList() {
+            const cryptos = [
+                { name: 'Bitcoin', sub: 'BTC', color: '#F7931A', rate: '7 875 694' },
+                { name: 'Ethereum', sub: 'ETH', color: '#627EEA', rate: '289 450' },
+                { name: 'Toncoin', sub: 'TON', color: '#0098EA', rate: '467' },
+                { name: 'VasilCoin', sub: 'VSL', color: '#D8FF01', rate: '100' },
+                { name: 'Dogecoin', sub: 'DOGE', color: '#C2A633', rate: '12' },
+                { name: 'Solana', sub: 'SOL', color: '#9945FF', rate: '16 234' },
+                { name: 'Cardano', sub: 'ADA', color: '#0033AD', rate: '46' },
+                { name: 'Polkadot', sub: 'DOT', color: '#E6007A', rate: '890' },
+                { name: 'Chainlink', sub: 'LINK', color: '#2A5ADA', rate: '1 430' },
+                { name: 'Polygon', sub: 'MATIC', color: '#8247E5', rate: '89' },
+                { name: 'Litecoin', sub: 'LTC', color: '#345D9D', rate: '7 124' },
+                { name: 'Uniswap', sub: 'UNI', color: '#FF007A', rate: '690' },
+                { name: 'Avalanche', sub: 'AVAX', color: '#E84142', rate: '3 021' },
+                { name: 'Cosmos', sub: 'ATOM', color: '#2E3148', rate: '780' },
+                { name: 'Stellar', sub: 'XLM', color: '#14B4E4', rate: '11' },
+                { name: 'Monero', sub: 'XMR', color: '#FF6600', rate: '13 950' },
+                { name: 'Algorand', sub: 'ALGO', color: '#000000', rate: '23' },
+                { name: 'VeChain', sub: 'VET', color: '#158BDE', rate: '3' },
+                { name: 'Filecoin', sub: 'FIL', color: '#0090FF', rate: '520' },
+                { name: 'Aptos', sub: 'APT', color: '#FFFFFF', rate: '830' },
+                { name: 'Optimism', sub: 'OP', color: '#FF0420', rate: '290' },
+                { name: 'Arbitrum', sub: 'ARB', color: '#2D374B', rate: '120' },
+                { name: 'The Graph', sub: 'GRT', color: '#6748E8', rate: '19' },
+                { name: 'Render', sub: 'RNDR', color: '#000000', rate: '540' },
+                { name: 'Injective', sub: 'INJ', color: '#00F2FE', rate: '2 800' },
+                { name: 'Sui', sub: 'SUI', color: '#4DA2FF', rate: '190' },
+                { name: 'Mantle', sub: 'MNT', color: '#000000', rate: '85' },
+                { name: 'Sei', sub: 'SEI', color: '#0F0F0F', rate: '78' },
+                { name: 'Stacks', sub: 'STX', color: '#5546FF', rate: '290' },
+                { name: 'Bittensor', sub: 'TAO', color: '#2A2A2A', rate: '25 400' }
+            ];
+
+            const container = document.getElementById('cryptoListContainer');
+            container.innerHTML = '';
+            cryptos.forEach(c => {
+                const el = document.createElement('div');
+                el.className = 'crypto-item';
+                el.onclick = () => alert('Функция в разработке!');
+                el.innerHTML = `
+                    <div class="crypto-left">
+                        <div class="crypto-icon" style="background:${c.color}">${c.name.charAt(0)}</div>
+                        <div class="crypto-info">
+                            <div class="crypto-name">${c.name}</div>
+                            <div class="crypto-sub">${c.sub} · ${c.rate} ₽</div>
+                        </div>
+                    </div>
+                    <div class="crypto-right"><div class="crypto-price">0,00 ₽</div></div>
+                `;
+                container.appendChild(el);
+            });
         }
     </script>
 </body>
