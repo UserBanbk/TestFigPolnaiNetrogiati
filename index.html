@@ -20,32 +20,48 @@
 
         <div id="authScreen" class="screen auth-wrapper active">
             <form id="registerForm" class="auth-form active">
-                <div class="input-group"><input type="text" id="regNick" required></div>
-                <div class="input-group"><input type="email" id="regEmail" required></div>
+                <div class="input-group"><input type="text" id="regNick" placeholder="Ваш Ник" required></div>
+                <div class="input-group"><input type="email" id="regEmail" placeholder="Ваша Почта" required></div>
                 <div class="input-group">
-                    <input type="password" id="regPass" required>
-                    <span class="toggle-password" onclick="togglePasswordVisibility('regPass')">👁️</span>
+                    <input type="password" id="regPass" placeholder="Пароль" required>
+                    <span class="toggle-password" onclick="togglePasswordVisibility('regPass')">
+                        <svg class="eye-icon" viewBox="0 0 24 24" fill="none">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </span>
                 </div>
                 <div class="input-group">
-                    <input type="password" id="regPassConfirm" required>
-                    <span class="toggle-password" onclick="togglePasswordVisibility('regPassConfirm')">👁️</span>
+                    <input type="password" id="regPassConfirm" placeholder="Повторите пароль" required>
+                    <span class="toggle-password" onclick="togglePasswordVisibility('regPassConfirm')">
+                        <svg class="eye-icon" viewBox="0 0 24 24" fill="none">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </span>
                 </div>
                 <button type="submit" class="submit-btn" id="regBtn">Зарегистрироваться</button>
                 <div class="auth-switch"><span class="switch-text" onclick="toggleAuth()">Есть аккаунт? Войти</span></div>
             </form>
 
             <form id="loginForm" class="auth-form">
-                <div class="input-group"><input type="text" id="loginNick" required></div>
-                <div class="input-group"><input type="email" id="loginEmail" required></div>
+                <div class="input-group"><input type="text" id="loginNick" placeholder="Ваш Ник" required></div>
+                <div class="input-group"><input type="email" id="loginEmail" placeholder="Почта для входа" required></div>
                 <div class="input-group">
-                    <input type="password" id="loginPass" required>
-                    <span class="toggle-password" onclick="togglePasswordVisibility('loginPass')">👁️</span>
+                    <input type="password" id="loginPass" placeholder="Пароль" required>
+                    <span class="toggle-password" onclick="togglePasswordVisibility('loginPass')">
+                        <svg class="eye-icon" viewBox="0 0 24 24" fill="none">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </span>
                 </div>
                 <button type="submit" class="submit-btn" id="loginBtn">Войти</button>
                 <div class="auth-switch"><span class="switch-text" onclick="toggleAuth()">Нет аккаунта? Зарегистрироваться</span></div>
             </form>
         </div>
 
+        <!-- ГЛАВНЫЙ ДАШБОРД (ТЁМНЫЙ КОШЕЛЕК) -->
         <div id="dashboardScreen">
             <div class="wallet-header">
                 <div class="wallet-avatar-area" onclick="triggerAvatarUpload()">
@@ -53,10 +69,14 @@
                     <span class="avatar-hint" id="avatarHint">Нажми</span>
                     <input type="file" id="avatarInput" accept="image/*" style="display:none;">
                 </div>
-                <div class="wallet-tabs">
-                    <div class="tab-bg" id="tabBg"></div>
-                    <div class="wallet-tab active" id="tabCrypto" onclick="switchTab('crypto')">Крипто</div>
-                    <div class="wallet-tab" id="tabVasil" onclick="switchTab('vasil')">Vasil</div>
+                
+                <div class="wallet-header-right">
+                    <div class="wallet-tabs">
+                        <div class="tab-bg" id="tabBg"></div>
+                        <div class="wallet-tab active" id="tabCrypto" onclick="switchTab('crypto')">₿ Крипто</div>
+                        <div class="wallet-tab" id="tabVasil" onclick="switchTab('vasil')">V Vasil</div>
+                    </div>
+                    <img src="BankLogo.png" class="small-wallet-logo" alt="Logo">
                 </div>
             </div>
 
@@ -69,34 +89,49 @@
 
             <div class="wallet-actions">
                 <div class="action-btn" onclick="showToast('В разработке!', false)">
-                    <div class="action-icon">✈️</div>
+                    <svg class="action-icon" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
                     <div class="action-text">Перевести</div>
                 </div>
                 <div class="action-btn" onclick="showToast('В разработке!', false)">
-                    <div class="action-icon">🛒</div>
+                    <svg class="action-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
                     <div class="action-text">Купить</div>
                 </div>
                 <div class="action-btn" onclick="showToast('В разработке!', false)">
-                    <div class="action-icon">📤</div>
+                    <svg class="action-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
                     <div class="action-text">Продать</div>
                 </div>
                 <div class="action-btn" onclick="showToast('В разработке!', false)">
-                    <div class="action-icon">🔄</div>
+                    <svg class="action-icon" viewBox="0 0 24 24"><polyline points="17 17 21 13 17 9"></polyline><polyline points="7 7 3 11 7 15"></polyline><line x1="21" y1="13" x2="3" y2="13"></line><line x1="3" y1="11" x2="21" y2="11"></line></svg>
                     <div class="action-text">Обменять</div>
                 </div>
             </div>
 
-            <div class="wallet-list-header">Крипто · ВСЕГО: <span id="totalCryptoBalance">0,00</span> <span id="totalCryptoCurrency">₽</span></div>
+            <div class="wallet-list-header">
+                <span>Криптоактивы</span>
+                <span>ВСЕГО: <span id="totalCryptoBalance">0,00</span> <span id="totalCryptoCurrency">₽</span></span>
+            </div>
             <div id="cryptoListContainer"></div>
 
             <div class="logout-wrapper">
-                <button onclick="logout()" style="background:#222220; color:#D8FF01; border:none; padding:14px 40px; border-radius:30px; font-weight:800; cursor:pointer; font-size:16px;">Выйти из аккаунта</button>
+                <button onclick="logout()" style="background:var(--dark-card); color:#ff4d4d; border:1px solid rgba(255,255,255,0.05); padding:16px 45px; border-radius:30px; font-weight:800; cursor:pointer; font-size:16px; box-shadow: var(--shadow-sm); backdrop-filter: blur(5px);">Выйти из аккаунта</button>
+            </div>
+
+            <!-- НИЖНЕЕ МЕНЮ (ТОЛЬКО КОШЕЛЕК И ПРОФИЛЬ) -->
+            <div class="bottom-nav">
+                <div class="nav-item active" id="navWallet">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                    <span>Кошелек</span>
+                </div>
+                <div class="nav-item" onclick="showToast('В разработке!', false)">
+                    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle><path d="M17 12l-3 3 3 3"/></svg>
+                    <span>Профиль</span>
+                </div>
             </div>
         </div>
 
         <div id="currencyModal" class="currency-modal" onclick="closeCurrencyModal(event)">
             <div class="currency-select">
-                <div style="color:#222; font-weight:800; text-align:center; margin-bottom:5px;">Выберите валюту</div>
+                <div style="color:#fff; font-weight:800; text-align:center; margin-bottom:8px; font-size: 18px;">Выберите валюту</div>
                 <div class="currency-option" onclick="setCurrency('₽', 'RUB')">Российский рубль (₽)</div>
                 <div class="currency-option" onclick="setCurrency('$', 'USD')">Доллар США ($)</div>
                 <div class="currency-option" onclick="setCurrency('Br', 'BYN')">Белорусский рубль (Br)</div>
@@ -121,9 +156,14 @@
 
         function togglePasswordVisibility(id) {
             const input = document.getElementById(id);
-            const eye = input.parentElement.querySelector('.toggle-password');
-            if (input.type === 'password') { input.type = 'text'; eye.textContent = '👁️‍🗨️'; } 
-            else { input.type = 'password'; eye.textContent = '👁️'; }
+            const eye = input.parentElement.querySelector('.eye-icon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                eye.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line>'; // Перечеркнутый глаз
+            } else {
+                input.type = 'password';
+                eye.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>'; // Обычный глаз
+            }
         }
 
         function showToast(msg, success = false) {
