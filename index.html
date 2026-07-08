@@ -20,14 +20,14 @@
 
         <div id="authScreen" class="screen auth-wrapper active">
             <form id="registerForm" class="auth-form active">
-                <div class="input-group"><input type="text" id="regNick" required></div>
-                <div class="input-group"><input type="email" id="regEmail" required></div>
+                <div class="input-group"><input type="text" id="regNick" placeholder="Ваш Ник" required></div>
+                <div class="input-group"><input type="email" id="regEmail" placeholder="Ваша Почта" required></div>
                 <div class="input-group">
-                    <input type="password" id="regPass" required>
+                    <input type="password" id="regPass" placeholder="Пароль" required>
                     <span class="toggle-password" onclick="togglePasswordVisibility('regPass')">👁️</span>
                 </div>
                 <div class="input-group">
-                    <input type="password" id="regPassConfirm" required>
+                    <input type="password" id="regPassConfirm" placeholder="Повторите пароль" required>
                     <span class="toggle-password" onclick="togglePasswordVisibility('regPassConfirm')">👁️</span>
                 </div>
                 <button type="submit" class="submit-btn" id="regBtn">Зарегистрироваться</button>
@@ -35,10 +35,10 @@
             </form>
 
             <form id="loginForm" class="auth-form">
-                <div class="input-group"><input type="text" id="loginNick" required></div>
-                <div class="input-group"><input type="email" id="loginEmail" required></div>
+                <div class="input-group"><input type="text" id="loginNick" placeholder="Ваш Ник" required></div>
+                <div class="input-group"><input type="email" id="loginEmail" placeholder="Почта для входа" required></div>
                 <div class="input-group">
-                    <input type="password" id="loginPass" required>
+                    <input type="password" id="loginPass" placeholder="Пароль" required>
                     <span class="toggle-password" onclick="togglePasswordVisibility('loginPass')">👁️</span>
                 </div>
                 <button type="submit" class="submit-btn" id="loginBtn">Войти</button>
