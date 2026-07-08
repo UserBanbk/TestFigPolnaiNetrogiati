@@ -9,109 +9,187 @@
 </head>
 <body>
     <div class="app-container">
-        
-        <!-- Логотип и приветствие -->
-        <div class="header-section">
+        <div class="header-section" id="headerSection">
             <img src="BankLogo.png" alt="Bank Logo" class="logo">
-            <h1 class="greeting-title">
-                Добро Пожаловать в<br>
-                Международный<br>
-                Крипта Банк
-            </h1>
+            <h1 class="greeting-title">Добро Пожаловать в<br>Международный<br>Крипта Банк</h1>
         </div>
 
-        <!-- Контейнер для форм с анимацией переключения -->
-        <div class="auth-wrapper">
-            
-            <!-- ФОРМА РЕГИСТРАЦИИ -->
+        <!-- Экран входа/регистрации -->
+        <div id="authScreen" class="screen auth-wrapper active">
             <form id="registerForm" class="auth-form active">
+                <div class="input-group"><input type="text" id="regNick" placeholder="Ваш Ник" required></div>
+                <div class="input-group"><input type="email" id="regEmail" placeholder="Ваша Почта" required></div>
+                <div class="input-group"><input type="password" id="regPass" placeholder="Пароль" required></div>
+                <div class="input-group"><input type="password" id="regPass2" placeholder="Повторный пароль" required></div>
                 <div class="input-group">
-                    <input type="text" placeholder="Ваш Ник" required>
-                </div>
-                <div class="input-group">
-                    <input type="email" placeholder="Ваша Почта" required>
-                </div>
-                <div class="input-group">
-                    <input type="password" placeholder="Пароль" required>
-                </div>
-                <div class="input-group">
-                    <input type="password" placeholder="Повторный пароль" required>
-                </div>
-                <div class="input-group">
-                    <select required>
-                        <option value="" disabled selected>Выберите Регион / Страну</option>
+                    <select id="regRegion" required>
+                        <option value="" disabled selected>Выберите Регион</option>
                         <option value="Russia">Россия</option>
                         <option value="Kazakhstan">Казахстан</option>
                         <option value="Belarus">Беларусь</option>
                         <option value="Other">Другая страна</option>
                     </select>
                 </div>
-
-                <button type="submit" class="submit-btn">Зарегистрироваться</button>
-                
-                <div class="auth-switch">
-                    <span class="switch-text" onclick="toggleAuth()">Есть аккаунт? Войти</span>
-                </div>
+                <button type="submit" class="submit-btn" id="regBtn">Зарегистрироваться</button>
+                <div class="auth-switch"><span class="switch-text" onclick="toggleAuth()">Есть аккаунт? Войти</span></div>
             </form>
 
-            <!-- ФОРМА ВХОДА -->
             <form id="loginForm" class="auth-form">
-                <div class="input-group">
-                    <input type="text" placeholder="Ваш Ник" required>
-                </div>
-                <div class="input-group">
-                    <input type="email" placeholder="Почта для входа" required>
-                </div>
-                <div class="input-group">
-                    <input type="password" placeholder="Пароль" required>
-                </div>
+                <div class="input-group"><input type="email" id="loginEmail" placeholder="Почта для входа" required></div>
+                <div class="input-group"><input type="password" id="loginPass" placeholder="Пароль" required></div>
+                <button type="submit" class="submit-btn" id="loginBtn">Войти</button>
+                <div class="auth-switch"><span class="switch-text" onclick="toggleAuth()">Нет аккаунта? Зарегистрироваться</span></div>
+            </form>
+        </div>
 
-                <button type="submit" class="submit-btn">Войти</button>
+        <!-- Экран проверки кода -->
+        <div id="verifyScreen" class="screen" style="display: none;">
+            <div class="auth-form active" style="position: relative;">
+                <h3 style="font-size: 20px; margin-bottom: 5px; text-align: center; font-weight: 800;">Подтверждение</h3>
+                <p style="text-align: center; font-weight: 600; opacity: 0.7; margin-bottom: 20px;">Код отправлен на почту:<br><span id="verifyEmailDisplay" style="font-weight: 900; opacity: 1;"></span></p>
+                <div class="input-group"><input type="text" id="verifyCode" placeholder="Введите 6-значный код" maxlength="6" required></div>
+                <button onclick="checkCode()" class="submit-btn" id="verifyBtn">Подтвердить</button>
+                <div class="auth-switch"><span class="switch-text" onclick="location.reload()">Отправить код заново</span></div>
+            </div>
+        </div>
+
+        <!-- Экран: Белая вкладка (Главная страница после входа) -->
+        <div id="dashboardScreen" class="screen white-dashboard" style="display: none;">
+            <div style="text-align: center; width: 100%;">
+                <img src="BankLogo.png" alt="Bank Logo" class="logo" style="margin-top: 40px;">
+                <h1 style="font-size: 20px; color: #222220; font-weight: 800; margin: 10px 0;">Вы успешно вошли!</h1>
+                <p style="color: #222220; opacity: 0.6; font-weight: 600; margin-bottom: 40px;">Это ваша белая вкладка. Закройте сайт и зайдите заново — вход не потребуется.</p>
                 
                 <div class="auth-switch">
-                    <span class="switch-text" onclick="toggleAuth()">Нет аккаунта? Зарегистрироваться</span>
+                    <span class="switch-text" onclick="logout()" style="color: #ff4d4d; font-weight: 900; background: #fff; padding: 10px 20px; border-radius: 30px; border: 1px solid #eee; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">Выйти из аккаунта</span>
                 </div>
-            </form>
-            
+            </div>
         </div>
     </div>
 
     <script>
-        // Плавное переключение форм
-        function toggleAuth() {
-            const regForm = document.getElementById('registerForm');
-            const loginForm = document.getElementById('loginForm');
-            
-            // Если регистрация активна, скрываем её и показываем вход
-            if (regForm.classList.contains('active')) {
-                regForm.classList.remove('active');
-                setTimeout(() => {
-                    loginForm.classList.add('active');
-                }, 200); // задержка чтобы анимация исчезновения успела сработать
-            } else {
-                loginForm.classList.remove('active');
-                setTimeout(() => {
-                    regForm.classList.add('active');
-                }, 200);
+        // ЕСЛИ ЗАЛИВАЕТЕ В ОБЛАКО, ПОМЕНЯЙТЕ ЭТУ СТРОКУ НА ССЫЛКУ СЕРВЕРА!
+        const API_URL = 'http://localhost:3000/api';
+        let currentEmail = '';
+
+        // Проверяем сессию при загрузке страницы
+        checkSession();
+
+        async function checkSession() {
+            const savedEmail = localStorage.getItem('cryptoBankSession');
+            if (savedEmail) {
+                const res = await fetch(`${API_URL}/check-session`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: savedEmail })
+                });
+                const data = await res.json();
+                if (data.valid) {
+                    showDashboard();
+                } else {
+                    localStorage.removeItem('cryptoBankSession');
+                }
             }
         }
-        
-        // Обработка кнопок регистрации и входа (демонстрация)
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
+
+        function toggleAuth() {
+            const reg = document.getElementById('registerForm');
+            const log = document.getElementById('loginForm');
+            if (reg.classList.contains('active')) {
+                reg.classList.remove('active'); setTimeout(() => log.classList.add('active'), 200);
+            } else {
+                log.classList.remove('active'); setTimeout(() => reg.classList.add('active'), 200);
+            }
+        }
+
+        function showDashboard() {
+            document.getElementById('authScreen').style.display = 'none';
+            document.getElementById('verifyScreen').style.display = 'none';
+            document.getElementById('dashboardScreen').style.display = 'flex';
+        }
+
+        // РЕГИСТРАЦИЯ
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            const btn = this.querySelector('.submit-btn');
-            btn.textContent = 'Регистрация...';
-            btn.style.transform = 'scale(0.95)';
-            setTimeout(() => btn.textContent = 'Зарегистрирован!', 1000);
+            const btn = document.getElementById('regBtn');
+            btn.textContent = 'Отправка...';
+            const pass = document.getElementById('regPass').value;
+            if (pass !== document.getElementById('regPass2').value) {
+                alert('Пароли не совпадают!'); btn.textContent = 'Зарегистрироваться'; return;
+            }
+
+            const res = await fetch(`${API_URL}/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    nick: document.getElementById('regNick').value,
+                    email: document.getElementById('regEmail').value,
+                    pass: pass,
+                    region: document.getElementById('regRegion').value
+                })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                currentEmail = document.getElementById('regEmail').value;
+                showVerifyScreen(currentEmail);
+            } else {
+                alert(data.message);
+            }
+            btn.textContent = 'Зарегистрироваться';
         });
-        
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+
+        // ВХОД
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            const btn = this.querySelector('.submit-btn');
-            btn.textContent = 'Вход...';
-            btn.style.transform = 'scale(0.95)';
-            setTimeout(() => btn.textContent = 'Вход выполнен!', 1000);
+            const btn = document.getElementById('loginBtn');
+            btn.textContent = 'Отправка...';
+            const res = await fetch(`${API_URL}/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: document.getElementById('loginEmail').value,
+                    pass: document.getElementById('loginPass').value
+                })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                currentEmail = document.getElementById('loginEmail').value;
+                showVerifyScreen(currentEmail);
+            } else {
+                alert(data.message);
+            }
+            btn.textContent = 'Войти';
         });
+
+        function showVerifyScreen(email) {
+            document.getElementById('authScreen').style.display = 'none';
+            document.getElementById('verifyScreen').style.display = 'flex';
+            document.getElementById('verifyEmailDisplay').innerText = email;
+        }
+
+        // ПРОВЕРКА И ВВОД КОДА
+        async function checkCode() {
+            const btn = document.getElementById('verifyBtn');
+            btn.textContent = 'Проверка...';
+            const code = document.getElementById('verifyCode').value;
+            const res = await fetch(`${API_URL}/verify`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: currentEmail, code: code })
+            });
+            const data = await res.json();
+            if (data.success) {
+                localStorage.setItem('cryptoBankSession', currentEmail);
+                showDashboard();
+            } else {
+                alert(data.message);
+            }
+            btn.textContent = 'Подтвердить';
+        }
+
+        function logout() {
+            localStorage.removeItem('cryptoBankSession');
+            location.reload();
+        }
     </script>
 </body>
 </html>
