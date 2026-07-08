@@ -25,19 +25,13 @@
                 <div class="input-group">
                     <input type="password" id="regPass" placeholder="Пароль" required>
                     <span class="toggle-password" onclick="togglePasswordVisibility('regPass')">
-                        <svg class="eye-icon" viewBox="0 0 24 24" fill="none">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                        </svg>
+                        <svg class="eye-icon" viewBox="0 0 24 24" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                     </span>
                 </div>
                 <div class="input-group">
                     <input type="password" id="regPassConfirm" placeholder="Повторите пароль" required>
                     <span class="toggle-password" onclick="togglePasswordVisibility('regPassConfirm')">
-                        <svg class="eye-icon" viewBox="0 0 24 24" fill="none">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                        </svg>
+                        <svg class="eye-icon" viewBox="0 0 24 24" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                     </span>
                 </div>
                 <button type="submit" class="submit-btn" id="regBtn">Зарегистрироваться</button>
@@ -50,10 +44,7 @@
                 <div class="input-group">
                     <input type="password" id="loginPass" placeholder="Пароль" required>
                     <span class="toggle-password" onclick="togglePasswordVisibility('loginPass')">
-                        <svg class="eye-icon" viewBox="0 0 24 24" fill="none">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                        </svg>
+                        <svg class="eye-icon" viewBox="0 0 24 24" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
                     </span>
                 </div>
                 <button type="submit" class="submit-btn" id="loginBtn">Войти</button>
@@ -61,7 +52,6 @@
             </form>
         </div>
 
-        <!-- ГЛАВНЫЙ ДАШБОРД -->
         <div id="dashboardScreen">
             <div class="wallet-header">
                 <div class="wallet-avatar-area" onclick="triggerAvatarUpload()">
@@ -69,41 +59,36 @@
                     <span class="avatar-hint" id="avatarHint">Нажми</span>
                     <input type="file" id="avatarInput" accept="image/*" style="display:none;">
                 </div>
-                
-                <div class="wallet-header-right">
-                    <div class="wallet-tabs">
-                        <div class="tab-bg" id="tabBg"></div>
-                        <div class="wallet-tab active" id="tabCrypto" onclick="switchTab('crypto')">₿ Крипто</div>
-                        <div class="wallet-tab" id="tabVasil" onclick="switchTab('vasil')">V Vasil</div>
-                    </div>
-                    <img src="BankLogo.png" class="small-wallet-logo" alt="Logo">
+                <img src="BankLogo.png" class="small-wallet-logo" alt="Logo">
+            </div>
+
+            <div class="wallet-tabs-center">
+                <div class="wallet-tabs">
+                    <div class="tab-bg" id="tabBg"></div>
+                    <div class="wallet-tab active" id="tabCrypto" onclick="switchTab('crypto')">₿ Крипто</div>
+                    <div class="wallet-tab" id="tabVasil" onclick="switchTab('vasil')">Vasil</div>
                 </div>
             </div>
 
             <div class="wallet-balance-section" onclick="openCurrencyModal()">
-                <div class="balance-label">Баланс</div>
+                <div class="balance-label">Общий баланс</div>
                 <div class="balance-amount">
                     <span id="balanceCurrencySymbol">₽</span><span id="balanceNumber">0,00</span>
                 </div>
             </div>
 
-            <!-- КНОПКИ С ИКОНКАМИ ИЗ ПАПКИ icon -->
             <div class="wallet-actions">
                 <div class="action-btn" onclick="showToast('В разработке!', false)">
-                    <img src="icon/отправить.png" class="action-icon" alt="Send">
-                    <div class="action-text">Перевести</div>
+                    <img src="icon/отправить.png" class="action-icon" alt="Send"><div class="action-text">Перевести</div>
                 </div>
                 <div class="action-btn" onclick="showToast('В разработке!', false)">
-                    <img src="icon/купить.png" class="action-icon" alt="Buy">
-                    <div class="action-text">Купить</div>
+                    <img src="icon/купить.png" class="action-icon" alt="Buy"><div class="action-text">Купить</div>
                 </div>
                 <div class="action-btn" onclick="showToast('В разработке!', false)">
-                    <img src="icon/продать.png" class="action-icon" alt="Sell">
-                    <div class="action-text">Продать</div>
+                    <img src="icon/продать.png" class="action-icon" alt="Sell"><div class="action-text">Продать</div>
                 </div>
                 <div class="action-btn" onclick="showToast('В разработке!', false)">
-                    <img src="icon/обменять.png" class="action-icon" alt="Exchange">
-                    <div class="action-text">Обменять</div>
+                    <img src="icon/обменять.png" class="action-icon" alt="Exchange"><div class="action-text">Обменять</div>
                 </div>
             </div>
 
@@ -114,19 +99,7 @@
             <div id="cryptoListContainer"></div>
 
             <div class="logout-wrapper">
-                <button onclick="logout()" style="background:#222220; color:#D8FF01; border:none; padding:16px 45px; border-radius:30px; font-weight:800; cursor:pointer; font-size:16px; box-shadow: 0 4px 12px rgba(34,34,32,0.2);">Выйти из аккаунта</button>
-            </div>
-
-            <!-- НИЖНЕЕ МЕНЮ (С ИКОНКАМИ ИЗ ПАПКИ icon) -->
-            <div class="bottom-nav">
-                <div class="nav-item active" id="navWallet">
-                    <img src="icon/кошелек.png" class="nav-icon" alt="Wallet">
-                    <span>Кошелек</span>
-                </div>
-                <div class="nav-item" onclick="showToast('В разработке!', false)">
-                    <img src="icon/профиль.png" class="nav-icon" alt="Profile">
-                    <span>Профиль</span>
-                </div>
+                <button onclick="logout()">Выйти из аккаунта</button>
             </div>
         </div>
 
@@ -154,6 +127,11 @@
             currentUser = db.users.find(u => u.email === savedEmail);
             if (!currentUser) localStorage.removeItem('cryptoBankSession');
         }
+
+        let selectedFiatSymbol = '₽';
+        let selectedFiatCode = 'RUB';
+        let fiatRates = { RUB: 1 };
+        let cryptoPrices = {};
 
         function togglePasswordVisibility(id) {
             const input = document.getElementById(id);
@@ -191,7 +169,177 @@
             document.getElementById('headerSection').style.display = 'none';
             document.getElementById('dashboardScreen').style.display = 'flex';
             loadUserData();
+            fetchAllData();
+            
+            if(window.rateInterval) clearInterval(window.rateInterval);
+            window.rateInterval = setInterval(() => {
+                fetchAllData();
+            }, 60000);
+        }
+
+        function fetchAllData() {
+            fetchFiatRates();
+            fetchCryptoPrices();
+        }
+
+        async function fetchFiatRates() {
+            try {
+                const res = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+                const data = await res.json();
+                fiatRates = data.rates;
+                renderCryptoList();
+                updateTotalBalance();
+            } catch(e) { console.error("Fiat error:", e); }
+        }
+
+        // ===== ДВОЙНАЯ СТРАХОВКА (CoinCap -> CoinGecko) =====
+        async function fetchCryptoPrices() {
+            let success = false;
+            
+            // 1. Сначала пытаемся CoinCap (стабильный, но мало ли)
+            try {
+                const res = await fetch('https://api.coincap.io/v2/assets');
+                const data = await res.json();
+                if (data && data.data) {
+                    const assets = data.data;
+                    let newPrices = {};
+                    // Добавили ethereum, убрали toncoin
+                    const neededIds = ['bitcoin', 'electroneum', 'ethereum', 'dogecoin', 'solana', 'cardano', 'ripple'];
+                    assets.forEach(asset => {
+                        if (neededIds.includes(asset.id)) {
+                            newPrices[asset.id] = { usd: parseFloat(asset.priceUsd) };
+                        }
+                    });
+                    if (Object.keys(newPrices).length > 0) {
+                        cryptoPrices = newPrices;
+                        success = true;
+                    }
+                }
+            } catch (e) { console.error("CoinCap error:", e); }
+
+            // 2. Если CoinCap упал, пробуем CoinGecko (у него есть все монеты)
+            if (!success) {
+                try {
+                    const ids = 'bitcoin,electroneum,ethereum,dogecoin,solana,cardano,ripple';
+                    const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=usd`);
+                    const data = await res.json();
+                    if (data && Object.keys(data).length > 0) {
+                        cryptoPrices = data;
+                        success = true;
+                    }
+                } catch (e) { console.error("CoinGecko error:", e); }
+            }
+
             renderCryptoList();
+            updateTotalBalance();
+        }
+
+        function updateTotalBalance() {
+            if (!currentUser) return;
+            let total = 0;
+            const cryptos = [
+                { apiId: 'bitcoin' }, { apiId: 'electroneum' }, { apiId: 'ethereum' },
+                { apiId: 'vasil' }, { apiId: 'dogecoin' }, { apiId: 'solana' },
+                { apiId: 'cardano' }, { apiId: 'ripple' }
+            ];
+
+            cryptos.forEach(c => {
+                let amount = currentUser.cryptoBalances?.[c.apiId] || 0;
+                let price = 0;
+                if (c.apiId === 'vasil') {
+                    const rubPrice = 500;
+                    const rubToUsd = fiatRates['RUB'] ? 1 / fiatRates['RUB'] : 1/90;
+                    const usdBase = rubPrice * rubToUsd;
+                    price = usdBase * (fiatRates[selectedFiatCode] || 1);
+                } else {
+                    const usdPrice = cryptoPrices[c.apiId]?.usd;
+                    if (usdPrice) {
+                        price = usdPrice * (fiatRates[selectedFiatCode] || 1);
+                    }
+                }
+                total += amount * price;
+            });
+
+            document.getElementById('balanceNumber').textContent = total.toFixed(2);
+            document.getElementById('balanceCurrencySymbol').textContent = selectedFiatSymbol;
+            document.getElementById('totalCryptoBalance').textContent = total.toFixed(2);
+            document.getElementById('totalCryptoCurrency').textContent = selectedFiatSymbol;
+        }
+
+        function setCurrency(symbol, code) {
+            selectedFiatSymbol = symbol;
+            selectedFiatCode = code;
+            document.getElementById('currencyModal').classList.remove('active');
+            updateTotalBalance();
+            renderCryptoList();
+            showToast(`Валюта изменена на ${code}`, true);
+        }
+
+        function openCurrencyModal() { document.getElementById('currencyModal').classList.add('active'); }
+
+        function closeCurrencyModal(e) {
+            if(e.target === e.currentTarget) document.getElementById('currencyModal').classList.remove('active');
+        }
+
+        function renderCryptoList() {
+            const allCryptos = [
+                { name: 'Bitcoin', sub: 'BTC', file: 'Bitcoin.png', apiId: 'bitcoin' },
+                { name: 'ETN', sub: 'ETN', file: 'Etn.png', apiId: 'electroneum' },
+                { name: 'Ethereum', sub: 'ETH', file: 'Ethereum.png', apiId: 'ethereum' },
+                { name: 'VasilCoin', sub: 'VSL', file: 'VasilCoin.png', apiId: 'vasil' },
+                { name: 'Dogecoin', sub: 'DOGE', file: 'Doge.png', apiId: 'dogecoin' },
+                { name: 'Solana', sub: 'SOL', file: 'Solana.png', apiId: 'solana' },
+                { name: 'Cardano', sub: 'ADA', file: 'Cardano.png', apiId: 'cardano' },
+                { name: 'XRP', sub: 'XRP', file: 'Xrp.png', apiId: 'ripple' }
+            ];
+
+            const isVasilTab = document.getElementById('tabVasil').classList.contains('active');
+            const cryptos = isVasilTab ? allCryptos.filter(c => c.apiId === 'vasil') : allCryptos;
+
+            const container = document.getElementById('cryptoListContainer');
+            container.innerHTML = '';
+
+            cryptos.forEach(c => {
+                const el = document.createElement('div');
+                el.className = 'crypto-item';
+                el.onclick = () => showToast('Функция в разработке!', false);
+                
+                let priceInFiat = 0;
+                let priceString = '--';
+
+                if (c.apiId === 'vasil') {
+                    const rubPrice = 500;
+                    const rubToUsd = fiatRates['RUB'] ? 1 / fiatRates['RUB'] : 1/90;
+                    const usdBase = rubPrice * rubToUsd;
+                    priceInFiat = usdBase * (fiatRates[selectedFiatCode] || 1);
+                    priceString = priceInFiat.toFixed(2) + ' ' + selectedFiatSymbol;
+                } else {
+                    const usdPrice = cryptoPrices[c.apiId]?.usd;
+                    if (usdPrice) {
+                        priceInFiat = usdPrice * (fiatRates[selectedFiatCode] || 1);
+                        priceString = priceInFiat.toFixed(2) + ' ' + selectedFiatSymbol;
+                    }
+                }
+
+                let balanceAmount = currentUser.cryptoBalances?.[c.apiId] || 0;
+                
+                el.innerHTML = `
+                    <div class="crypto-left">
+                        <div class="crypto-icon"><img src="CryptoLog/${c.file}" alt="${c.name}"></div>
+                        <div class="crypto-info">
+                            <div class="crypto-name">${c.name}</div>
+                            <div class="crypto-sub">${c.sub} · ${priceString}</div>
+                        </div>
+                    </div>
+                    <div class="crypto-right">
+                        <div class="crypto-balance">${balanceAmount.toFixed(4)} ${c.sub}</div>
+                        <div class="crypto-value">${priceString}</div>
+                    </div>
+                `;
+                container.appendChild(el);
+            });
+            
+            updateTotalBalance();
         }
 
         document.getElementById('registerForm').addEventListener('submit', function(e) {
@@ -207,8 +355,13 @@
             if (db.users.find(u => u.nick === nick)) { showToast('Этот Ник занят!'); btn.textContent = 'Зарегистрироваться'; return; }
             if (db.users.find(u => u.email === email)) { showToast('Эта почта занята!'); btn.textContent = 'Зарегистрироваться'; return; }
 
-            const newUser = { nick, email, pass, loginAttempts: 0, blockedUntil: null, avatar: null };
-            db.users.push(newUser); saveDB();
+            const defaultBalances = {
+                'bitcoin': 0.001, 'electroneum': 0, 'ethereum': 0, 
+                'vasil': 10, 'dogecoin': 50, 'solana': 0, 'cardano': 0, 'ripple': 0
+            };
+
+            db.users.push({ nick, email, pass, loginAttempts: 0, blockedUntil: null, avatar: null, cryptoBalances: defaultBalances });
+            saveDB();
             localStorage.setItem('cryptoBankSession', email);
             showToast('Регистрация успешна!', true);
             setTimeout(() => location.reload(), 600);
@@ -289,57 +442,7 @@
                 tabVasil.classList.add('active');
                 tabCrypto.classList.remove('active');
             }
-        }
-
-        function openCurrencyModal() { document.getElementById('currencyModal').classList.add('active'); }
-
-        function closeCurrencyModal(e) {
-            if(e.target === e.currentTarget) {
-                document.getElementById('currencyModal').classList.remove('active');
-            }
-        }
-
-        function setCurrency(symbol, code) {
-            document.getElementById('balanceCurrencySymbol').textContent = symbol;
-            document.getElementById('totalCryptoCurrency').textContent = symbol;
-            document.getElementById('currencyModal').classList.remove('active');
-            showToast(`Валюта изменена на ${code}`, true);
-        }
-
-        function renderCryptoList() {
-            // Оставляем только 8 криптовалют с локальными картинками
-            const cryptos = [
-                { name: 'Bitcoin', sub: 'BTC', file: 'Bitcoin.png' },
-                { name: 'ETN', sub: 'ETN', file: 'Etn.png' },
-                { name: 'Toncoin', sub: 'TON', file: 'ton.png' },
-                { name: 'VasilCoin', sub: 'VSL', file: 'VasilCoin.png' },
-                { name: 'Dogecoin', sub: 'DOGE', file: 'Doge.png' },
-                { name: 'Solana', sub: 'SOL', file: 'Solana.png' },
-                { name: 'Cardano', sub: 'ADA', file: 'Cardano.png' },
-                { name: 'XRP', sub: 'XRP', file: 'Xrp.png' }
-            ];
-
-            const container = document.getElementById('cryptoListContainer');
-            container.innerHTML = '';
-            cryptos.forEach(c => {
-                const el = document.createElement('div');
-                el.className = 'crypto-item';
-                el.onclick = () => showToast('Функция в разработке!', false);
-                const rateDisplay = '0,00'; // Пока оставляем курс 0.00, так как нет функционала
-                el.innerHTML = `
-                    <div class="crypto-left">
-                        <div class="crypto-icon">
-                            <img src="CryptoLog/${c.file}" alt="${c.name}">
-                        </div>
-                        <div class="crypto-info">
-                            <div class="crypto-name">${c.name}</div>
-                            <div class="crypto-sub">${c.sub} · ${rateDisplay} ₽</div>
-                        </div>
-                    </div>
-                    <div class="crypto-right"><div class="crypto-price">0,00 ₽</div></div>
-                `;
-                container.appendChild(el);
-            });
+            renderCryptoList();
         }
     </script>
 </body>
