@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        
+        <!-- Логотип и приветствие -->
+        <div class="header-section">
+            <img src="BankLogo.png" alt="Bank Logo" class="logo">
+            <h1 class="greeting-title">
+                Добро Пожаловать в<br>
+                Международный<br>
+                Крипта Банк
+            </h1>
+        </div>
+
+        <!-- Контейнер для форм с анимацией переключения -->
+        <div class="auth-wrapper">
+            
+            <!-- ФОРМА РЕГИСТРАЦИИ -->
+            <form id="registerForm" class="auth-form active">
+                <div class="input-group">
+                    <input type="text" placeholder="Ваш Ник" required>
+                </div>
+                <div class="input-group">
+                    <input type="email" placeholder="Ваша Почта" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" placeholder="Пароль" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" placeholder="Повторный пароль" required>
+                </div>
+                <div class="input-group">
+                    <select required>
+                        <option value="" disabled selected>Выберите Регион / Страну</option>
+                        <option value="Russia">Россия</option>
+                        <option value="Kazakhstan">Казахстан</option>
+                        <option value="Belarus">Беларусь</option>
+                        <option value="Other">Другая страна</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="submit-btn">Зарегистрироваться</button>
+                
+                <div class="auth-switch">
+                    <span class="switch-text" onclick="toggleAuth()">Есть аккаунт? Войти</span>
+                </div>
+            </form>
+
+            <!-- ФОРМА ВХОДА -->
+            <form id="loginForm" class="auth-form">
+                <div class="input-group">
+                    <input type="text" placeholder="Ваш Ник" required>
+                </div>
+                <div class="input-group">
+                    <input type="email" placeholder="Почта для входа" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" placeholder="Пароль" required>
+                </div>
+
+                <button type="submit" class="submit-btn">Войти</button>
+                
+                <div class="auth-switch">
+                    <span class="switch-text" onclick="toggleAuth()">Нет аккаунта? Зарегистрироваться</span>
+                </div>
+            </form>
+            
+        </div>
+    </div>
+
+    <script>
+        // Плавное переключение форм
+        function toggleAuth() {
+            const regForm = document.getElementById('registerForm');
+            const loginForm = document.getElementById('loginForm');
+            
+            // Если регистрация активна, скрываем её и показываем вход
+            if (regForm.classList.contains('active')) {
+                regForm.classList.remove('active');
+                setTimeout(() => {
+                    loginForm.classList.add('active');
+                }, 200); // задержка чтобы анимация исчезновения успела сработать
+            } else {
+                loginForm.classList.remove('active');
+                setTimeout(() => {
+                    regForm.classList.add('active');
+                }, 200);
+            }
+        }
+        
+        // Обработка кнопок регистрации и входа (демонстрация)
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('.submit-btn');
+            btn.textContent = 'Регистрация...';
+            btn.style.transform = 'scale(0.95)';
+            setTimeout(() => btn.textContent = 'Зарегистрирован!', 1000);
+        });
+        
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = this.querySelector('.submit-btn');
+            btn.textContent = 'Вход...';
+            btn.style.transform = 'scale(0.95)';
+            setTimeout(() => btn.textContent = 'Вход выполнен!', 1000);
+        });
+    </script>
+</body>
+</html>
