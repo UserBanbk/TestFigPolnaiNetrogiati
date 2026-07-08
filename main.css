@@ -21,7 +21,6 @@ body {
     justify-content: center;
     align-items: center;
     padding: 20px;
-    transition: background-color 0.4s ease, padding 0.4s ease;
 }
 
 .app-container {
@@ -31,10 +30,8 @@ body {
     display: flex;
     flex-direction: column;
     gap: 30px;
-    transition: max-width 0.4s ease, background-color 0.4s ease;
 }
 
-/* КРАСИВЫЕ УВЕДОМЛЕНИЯ (ТОСТЫ) */
 .notification-toast {
     display: none;
     position: fixed;
@@ -44,82 +41,25 @@ body {
     width: 90%;
     max-width: 380px;
     padding: 16px 20px;
-    background-color: var(--btn-bg);
+    background-color: #222220;
     color: #ffffff;
     border-radius: 16px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     z-index: 9999;
     opacity: 0;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    align-items: center;
-    justify-content: center;
     text-align: center;
 }
+.notification-toast.error { background-color: #cc0000; }
+.notification-toast.success { background-color: #1C7E34; }
+.notification-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-.notification-toast.error {
-    background-color: #cc0000;
-    color: #ffffff;
-}
-
-.notification-toast.success {
-    background-color: #1C7E34;
-    color: #ffffff;
-}
-
-.notification-toast .notif-content p {
-    font-weight: 700;
-    font-size: 15px;
-    font-family: 'Montserrat', sans-serif;
-}
-
-.notification-toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-}
-
-/* СТИЛИ ДЛЯ БЕЛОЙ ВКЛАДКИ */
-body.dashboard-mode {
-    background-color: #ffffff !important;
-    padding: 0; 
-    margin: 0;
-    align-items: flex-start;
-    overflow: hidden;
-}
-
-body.dashboard-mode .app-container {
-    max-width: 100%;
-    background-color: #ffffff;
-    min-height: 100vh;
-    padding: 20px 20px 40px 20px;
-    justify-content: flex-start;
-    gap: 10px;
-}
-
-body.dashboard-mode .white-dashboard {
-    background-color: transparent;
-    box-shadow: none;
-    padding: 0;
-    min-height: auto;
-}
-
-/* Остальные стили формы */
-.logo {
-    display: block;
-    width: 80%;
-    max-width: 300px;
-    height: auto;
-    object-fit: contain;
-    margin: 0 auto 25px auto;
-    border-radius: 20px;
-    filter: drop-shadow(0 6px 20px var(--shadow-color));
-}
-
+.logo { display: block; width: 80%; max-width: 300px; height: auto; margin: 0 auto 25px auto; border-radius: 20px; }
 .header-section { text-align: center; animation: slideUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-
-.greeting-title { font-size: 28px; font-weight: 900; line-height: 1.2; letter-spacing: -1px; margin-top: 5px; word-break: break-word; }
+.greeting-title { font-size: 28px; font-weight: 900; line-height: 1.2; margin-top: 5px; }
 
 .auth-wrapper { position: relative; width: 100%; min-height: 420px; }
-.screen { width: 100%; flex-direction: column; gap: 20px; align-items: center; justify-content: center; animation: fadeIn 0.5s ease; }
+.screen { width: 100%; flex-direction: column; gap: 20px; align-items: center; justify-content: center; }
 
 .auth-form {
     width: 100%; display: flex; flex-direction: column; gap: 15px;
@@ -129,30 +69,63 @@ body.dashboard-mode .white-dashboard {
 }
 .auth-form.active { opacity: 1; transform: translateY(0); pointer-events: auto; position: relative; }
 
-.input-group input, .input-group select, .input-group input[type="date"] {
-    width: 100%; padding: 18px 20px; background: var(--card-bg);
-    backdrop-filter: blur(5px); border: 1px solid var(--input-border);
+.input-group { position: relative; width: 100%; }
+.input-group input {
+    width: 100%; padding: 18px 50px 18px 20px;
+    background: var(--card-bg); border: 1px solid var(--input-border);
     border-radius: 16px; font-family: 'Montserrat', sans-serif;
     font-size: 16px; font-weight: 600; color: var(--text-color);
-    outline: none; transition: all 0.3s ease; box-shadow: 0 4px 10px var(--shadow-color); 
+    outline: none; transition: all 0.3s ease; box-shadow: 0 4px 10px var(--shadow-color);
 }
-.input-group input:focus, .input-group select:focus { transform: scale(1.02); box-shadow: 0 8px 25px var(--shadow-color); }
-.input-group input::placeholder { color: var(--text-color); opacity: 0.6; font-weight: 500; }
-.input-group select option { background-color: var(--bg-color); color: #222220; }
+.input-group input:focus { transform: scale(1.02); }
+
+.toggle-password {
+    position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
+    cursor: pointer; user-select: none; opacity: 0.6; font-size: 22px;
+}
+.toggle-password:hover { opacity: 1; }
 
 .submit-btn {
     margin-top: 10px; padding: 20px; background: var(--btn-bg); color: var(--btn-text);
     font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 800;
-    border: none; border-radius: 50px; cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 4px 15px var(--shadow-color); letter-spacing: 1px; text-transform: uppercase;
+    border: none; border-radius: 50px; cursor: pointer; text-transform: uppercase;
 }
 .submit-btn:hover { background: var(--btn-hover); transform: translateY(-3px); }
 
-.auth-switch { margin-top: 10px; text-align: center; }
-.switch-text { display: inline-block; font-weight: 700; font-size: 15px; opacity: 0.7; cursor: pointer; transition: all 0.3s ease; color: var(--text-color); }
-.switch-text:hover { opacity: 1; transform: scale(1.05); text-decoration: underline; }
+.auth-switch { text-align: center; margin-top: 10px; }
+.switch-text { font-weight: 700; font-size: 15px; opacity: 0.7; cursor: pointer; color: var(--text-color); }
 
 @keyframes slideUp { 0% { opacity: 0; transform: translateY(30px); } 100% { opacity: 1; transform: translateY(0); } }
-@keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
-@media (max-width: 480px) { .greeting-title { font-size: 26px; } }
+
+/* =============================== */
+/* СТИЛИ ДЛЯ ПУСТОГО БЕЛОГО ЭКРАНА */
+/* =============================== */
+#dashboardScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #ffffff !important;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    margin: 0;
+    padding: 0;
+}
+
+.logout-btn {
+    background: #ff4d4d;
+    color: #ffffff;
+    border: none;
+    padding: 18px 45px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(255, 77, 77, 0.3);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.logout-btn:hover { transform: translateY(-3px) scale(1.02); background: #cc0000; }
