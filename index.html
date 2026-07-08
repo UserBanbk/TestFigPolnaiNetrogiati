@@ -46,14 +46,7 @@
             </form>
         </div>
 
-        <!-- ИГРОВОЙ КАБИНЕТ -->
         <div id="dashboardScreen">
-            <div id="vasilScreen" class="vasil-screen">
-                <h1 style="font-size: 28px; font-weight: 900; color:#222;">Кошелек Vasil</h1>
-                <p style="color:#888;">Здесь пока пусто</p>
-                <button class="vasil-back-btn" onclick="closeVasil()">← Назад</button>
-            </div>
-
             <div class="wallet-header">
                 <div class="wallet-avatar-area" onclick="triggerAvatarUpload()">
                     <div class="wallet-avatar" id="avatarBox">V</div>
@@ -61,82 +54,49 @@
                     <input type="file" id="avatarInput" accept="image/*" style="display:none;">
                 </div>
                 <div class="wallet-tabs">
-                    <div class="wallet-tab active" id="tabCrypto" onclick="switchToCrypto()">Крипто</div>
-                    <div class="wallet-tab vasil-tab" id="tabVasil" onclick="switchToVasil()">Vasil</div>
+                    <div class="tab-bg" id="tabBg"></div>
+                    <div class="wallet-tab active" id="tabCrypto" onclick="switchTab('crypto')">Крипто</div>
+                    <div class="wallet-tab" id="tabVasil" onclick="switchTab('vasil')">Vasil</div>
                 </div>
             </div>
 
-            <!-- БАННЕР С БАЛАНСОМ -->
-            <div class="banner-card" onclick="openCurrencyModal()">
-                <div class="banner-title">Баланс: <span id="balanceCurrencySymbol">₽</span><span id="balanceNumber">0,00</span></div>
-                <div class="banner-small">Нажмите, чтобы сменить валюту</div>
-            </div>
-
-            <!-- ГЛАВНАЯ (МИНИ-ИГРЫ) -->
-            <div id="homeView" class="games-grid">
-                <div class="game-card purple-card" onclick="alert('В разработке!')">
-                    <div class="game-icon">🧸</div>
-                    <div class="game-title">Rocket Spin</div>
-                    <div class="game-desc">Поймай удачу!</div>
-                </div>
-                <div class="game-card blue-card" onclick="alert('В разработке!')">
-                    <div class="game-icon">🟤</div>
-                    <div class="game-title">Plinko</div>
-                    <div class="game-desc">Плинко с гифтами</div>
-                </div>
-                <div class="game-card cyan-card" onclick="alert('В разработке!')">
-                    <div class="game-icon">🚀</div>
-                    <div class="game-title">Мины</div>
-                    <div class="game-desc">Разминируй поле</div>
-                </div>
-                <div class="game-card green-card" onclick="alert('В разработке!')">
-                    <div class="game-icon">🥤</div>
-                    <div class="game-title">Стаканчики</div>
-                    <div class="game-desc">Кручу, верчу</div>
+            <div class="wallet-balance-section" onclick="openCurrencyModal()">
+                <div class="balance-label">Баланс</div>
+                <div class="balance-amount">
+                    <span id="balanceCurrencySymbol">₽</span><span id="balanceNumber">0,00</span>
                 </div>
             </div>
 
-            <!-- КОШЕЛЕК (СПИСОК МОНЕТ) -->
-            <div id="walletView" class="wallet-view">
-                <div class="wallet-actions">
-                    <div class="action-btn" onclick="alert('В разработке!')">
-                        <div class="action-icon">✈️</div>
-                        <div class="action-text">Перевести</div>
-                    </div>
-                    <div class="action-btn" onclick="alert('В разработке!')">
-                        <div class="action-icon">➕</div>
-                        <div class="action-text">Пополнить</div>
-                    </div>
-                    <div class="action-btn" onclick="alert('В разработке!')">
-                        <div class="action-icon">📤</div>
-                        <div class="action-text">Продать</div>
-                    </div>
-                    <div class="action-btn" onclick="alert('В разработке!')">
-                        <div class="action-icon">🔄</div>
-                        <div class="action-text">Обменять</div>
-                    </div>
+            <div class="wallet-actions">
+                <div class="action-btn" onclick="showToast('В разработке!', false)">
+                    <div class="action-icon">✈️</div>
+                    <div class="action-text">Перевести</div>
                 </div>
-                <div class="wallet-list-title">Крипто · ВСЕГО: <span id="totalCryptoBalance">0,00</span> <span id="totalCryptoCurrency">₽</span></div>
-                <div id="cryptoListContainer"></div>
-                <div class="logout-wrapper">
-                    <button onclick="logout()" style="background:#ff4d4d; color:#fff; border:none; padding:15px 40px; border-radius:30px; font-weight:800; cursor:pointer; font-size:16px;">Выйти из аккаунта</button>
+                <div class="action-btn" onclick="showToast('В разработке!', false)">
+                    <div class="action-icon">🛒</div>
+                    <div class="action-text">Купить</div>
+                </div>
+                <div class="action-btn" onclick="showToast('В разработке!', false)">
+                    <div class="action-icon">📤</div>
+                    <div class="action-text">Продать</div>
+                </div>
+                <div class="action-btn" onclick="showToast('В разработке!', false)">
+                    <div class="action-icon">🔄</div>
+                    <div class="action-text">Обменять</div>
                 </div>
             </div>
 
-            <!-- НИЖНЕЕ МЕНЮ -->
-            <div class="bottom-nav">
-                <div class="nav-item active" id="navHome" onclick="switchView('home')"><div class="nav-icon">🎮</div><span>Мини</span></div>
-                <div class="nav-item" id="navWallet" onclick="switchView('wallet')"><div class="nav-icon">🪙</div><span>Кошелек</span></div>
-                <div class="nav-item" onclick="alert('В разработке!')"><div class="nav-icon">🏆</div><span>Лидеры</span></div>
-                <div class="nav-item" onclick="alert('В разработке!')"><div class="nav-icon">🚀</div><span>Краш</span></div>
-                <div class="nav-item" onclick="alert('В разработке!')"><div class="nav-icon">👤</div><span>Профиль</span></div>
+            <div class="wallet-list-header">Крипто · ВСЕГО: <span id="totalCryptoBalance">0,00</span> <span id="totalCryptoCurrency">₽</span></div>
+            <div id="cryptoListContainer"></div>
+
+            <div class="logout-wrapper">
+                <button onclick="logout()" style="background:#222220; color:#D8FF01; border:none; padding:14px 40px; border-radius:30px; font-weight:800; cursor:pointer; font-size:16px;">Выйти из аккаунта</button>
             </div>
         </div>
 
-        <!-- Модалка валют -->
         <div id="currencyModal" class="currency-modal" onclick="closeCurrencyModal(event)">
             <div class="currency-select">
-                <div style="color:#fff; font-weight:800; text-align:center; margin-bottom:5px;">Выберите валюту</div>
+                <div style="color:#222; font-weight:800; text-align:center; margin-bottom:5px;">Выберите валюту</div>
                 <div class="currency-option" onclick="setCurrency('₽', 'RUB')">Российский рубль (₽)</div>
                 <div class="currency-option" onclick="setCurrency('$', 'USD')">Доллар США ($)</div>
                 <div class="currency-option" onclick="setCurrency('Br', 'BYN')">Белорусский рубль (Br)</div>
@@ -250,7 +210,6 @@
 
         function logout() { localStorage.removeItem('cryptoBankSession'); location.reload(); }
 
-        // ФУНКЦИИ КАБИНЕТА
         function loadUserData() {
             if (currentUser && currentUser.avatar) {
                 document.getElementById('avatarBox').innerHTML = `<img src="${currentUser.avatar}" alt="Avatar">`;
@@ -275,36 +234,20 @@
             }
         });
 
-        function switchView(view) {
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-            document.getElementById('homeView').style.display = 'none';
-            document.getElementById('walletView').classList.remove('active');
-            document.getElementById('walletView').style.display = 'none';
-
-            if (view === 'home') {
-                document.getElementById('navHome').classList.add('active');
-                document.getElementById('homeView').style.display = 'grid';
-            } else if (view === 'wallet') {
-                document.getElementById('navWallet').classList.add('active');
-                document.getElementById('walletView').style.display = 'flex';
-                document.getElementById('walletView').classList.add('active');
+        function switchTab(tab) {
+            const bg = document.getElementById('tabBg');
+            const tabCrypto = document.getElementById('tabCrypto');
+            const tabVasil = document.getElementById('tabVasil');
+            
+            if (tab === 'crypto') {
+                bg.classList.remove('active-right');
+                tabCrypto.classList.add('active');
+                tabVasil.classList.remove('active');
+            } else if (tab === 'vasil') {
+                bg.classList.add('active-right');
+                tabVasil.classList.add('active');
+                tabCrypto.classList.remove('active');
             }
-        }
-
-        function switchToVasil() {
-            document.getElementById('tabCrypto').classList.remove('active');
-            document.getElementById('tabVasil').classList.add('active');
-            document.getElementById('vasilScreen').classList.add('active');
-        }
-
-        function switchToCrypto() {
-            document.getElementById('tabVasil').classList.remove('active');
-            document.getElementById('tabCrypto').classList.add('active');
-            document.getElementById('vasilScreen').classList.remove('active');
-        }
-
-        function closeVasil() {
-            switchToCrypto();
         }
 
         function openCurrencyModal() { document.getElementById('currencyModal').classList.add('active'); }
@@ -361,13 +304,14 @@
             cryptos.forEach(c => {
                 const el = document.createElement('div');
                 el.className = 'crypto-item';
-                el.onclick = () => alert('Функция в разработке!');
+                el.onclick = () => showToast('Функция в разработке!', false);
+                const rateDisplay = c.rate.replace(/\s/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
                 el.innerHTML = `
                     <div class="crypto-left">
                         <div class="crypto-icon" style="background:${c.color}">${c.name.charAt(0)}</div>
                         <div class="crypto-info">
                             <div class="crypto-name">${c.name}</div>
-                            <div class="crypto-sub">${c.sub} · ${c.rate} ₽</div>
+                            <div class="crypto-sub">${c.sub} · ${rateDisplay} ₽</div>
                         </div>
                     </div>
                     <div class="crypto-right"><div class="crypto-price">0,00 ₽</div></div>
