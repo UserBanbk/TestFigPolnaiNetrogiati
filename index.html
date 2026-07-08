@@ -8,29 +8,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Всплывающее уведомление -->
     <div id="notificationToast" class="notification-toast">
         <div class="notif-content"><p id="notifMessage">Текст уведомления</p></div>
     </div>
 
     <div class="app-container">
-        <!-- Шапка с логотипом (Видна только на экране входа) -->
         <div id="headerSection" class="header-section">
             <img src="BankLogo.png" alt="Bank Logo" class="logo">
             <h1 class="greeting-title">Добро Пожаловать в<br>Международный<br>Крипта Банк</h1>
         </div>
 
-        <!-- Экран входа и регистрации -->
         <div id="authScreen" class="screen auth-wrapper active">
             <form id="registerForm" class="auth-form active">
-                <div class="input-group"><input type="text" id="regNick" placeholder="Ваш Ник" required></div>
-                <div class="input-group"><input type="email" id="regEmail" placeholder="Ваша Почта" required></div>
+                <div class="input-group"><input type="text" id="regNick" required></div>
+                <div class="input-group"><input type="email" id="regEmail" required></div>
                 <div class="input-group">
-                    <input type="password" id="regPass" placeholder="Пароль" required>
+                    <input type="password" id="regPass" required>
                     <span class="toggle-password" onclick="togglePasswordVisibility('regPass')">👁️</span>
                 </div>
                 <div class="input-group">
-                    <input type="password" id="regPassConfirm" placeholder="Повторите пароль" required>
+                    <input type="password" id="regPassConfirm" required>
                     <span class="toggle-password" onclick="togglePasswordVisibility('regPassConfirm')">👁️</span>
                 </div>
                 <button type="submit" class="submit-btn" id="regBtn">Зарегистрироваться</button>
@@ -38,10 +35,10 @@
             </form>
 
             <form id="loginForm" class="auth-form">
-                <div class="input-group"><input type="text" id="loginNick" placeholder="Ваш Ник" required></div>
-                <div class="input-group"><input type="email" id="loginEmail" placeholder="Почта для входа" required></div>
+                <div class="input-group"><input type="text" id="loginNick" required></div>
+                <div class="input-group"><input type="email" id="loginEmail" required></div>
                 <div class="input-group">
-                    <input type="password" id="loginPass" placeholder="Пароль" required>
+                    <input type="password" id="loginPass" required>
                     <span class="toggle-password" onclick="togglePasswordVisibility('loginPass')">👁️</span>
                 </div>
                 <button type="submit" class="submit-btn" id="loginBtn">Войти</button>
@@ -49,18 +46,15 @@
             </form>
         </div>
 
-        <!-- ПОЛНОСТЬЮ ПУСТОЙ БЕЛЫЙ ЭКРАН С КНОПКОЙ ПО ЦЕНТРУ -->
         <div id="dashboardScreen">
             <button onclick="logout()" class="logout-btn">Выйти из аккаунта</button>
         </div>
     </div>
 
     <script>
-        // База данных в LocalStorage браузера (Без сервера!)
         let db = JSON.parse(localStorage.getItem('cryptoBankDB')) || { users: [] };
         function saveDB() { localStorage.setItem('cryptoBankDB', JSON.stringify(db)); }
 
-        // Переключение глазика
         function togglePasswordVisibility(id) {
             const input = document.getElementById(id);
             const eye = input.parentElement.querySelector('.toggle-password');
@@ -68,7 +62,6 @@
             else { input.type = 'password'; eye.textContent = '👁️'; }
         }
 
-        // Красивое уведомление
         function showToast(msg, success = false) {
             const toast = document.getElementById('notificationToast');
             document.getElementById('notifMessage').textContent = msg;
@@ -78,7 +71,6 @@
             setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.style.display = 'none', 400); }, 3500);
         }
 
-        // Переключение между входом и регистрацией
         function toggleAuth() {
             const reg = document.getElementById('registerForm');
             const log = document.getElementById('loginForm');
@@ -89,14 +81,12 @@
             }
         }
 
-        // Переход в белый кабинет (скрываем шапку и вход)
         function showDashboard() {
             document.getElementById('authScreen').style.display = 'none';
             document.getElementById('headerSection').style.display = 'none';
             document.getElementById('dashboardScreen').style.display = 'flex';
         }
 
-        // ===== РЕГИСТРАЦИЯ =====
         document.getElementById('registerForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const btn = document.getElementById('regBtn');
@@ -119,7 +109,6 @@
             btn.textContent = 'Зарегистрироваться';
         });
 
-        // ===== ВХОД =====
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const btn = document.getElementById('loginBtn');
@@ -154,14 +143,12 @@
             btn.textContent = 'Войти';
         });
 
-        // ===== ПРОВЕРКА СЕССИИ (Автоматический вход при перезагрузке) =====
         const savedEmail = localStorage.getItem('cryptoBankSession');
         if (savedEmail) {
             const user = db.users.find(u => u.email === savedEmail);
             if (user) { showDashboard(); } else { localStorage.removeItem('cryptoBankSession'); }
         }
 
-        // ===== ВЫХОД ИЗ АККАУНТА =====
         function logout() { 
             localStorage.removeItem('cryptoBankSession'); 
             location.reload(); 
