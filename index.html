@@ -61,7 +61,7 @@
             </form>
         </div>
 
-        <!-- ГЛАВНЫЙ ДАШБОРД (ЛАЙМОВЫЙ КОШЕЛЕК) -->
+        <!-- ГЛАВНЫЙ ДАШБОРД -->
         <div id="dashboardScreen">
             <div class="wallet-header">
                 <div class="wallet-avatar-area" onclick="triggerAvatarUpload()">
@@ -87,22 +87,22 @@
                 </div>
             </div>
 
-            <!-- Кнопки с эмодзи из Telegram -->
+            <!-- КНОПКИ С ИКОНКАМИ ИЗ ПАПКИ icon -->
             <div class="wallet-actions">
                 <div class="action-btn" onclick="showToast('В разработке!', false)">
-                    <div class="action-icon">✈️</div>
+                    <img src="icon/отправить.png" class="action-icon" alt="Send">
                     <div class="action-text">Перевести</div>
                 </div>
                 <div class="action-btn" onclick="showToast('В разработке!', false)">
-                    <div class="action-icon">🛒</div>
+                    <img src="icon/купить.png" class="action-icon" alt="Buy">
                     <div class="action-text">Купить</div>
                 </div>
                 <div class="action-btn" onclick="showToast('В разработке!', false)">
-                    <div class="action-icon">💸</div>
+                    <img src="icon/продать.png" class="action-icon" alt="Sell">
                     <div class="action-text">Продать</div>
                 </div>
                 <div class="action-btn" onclick="showToast('В разработке!', false)">
-                    <div class="action-icon">🔄</div>
+                    <img src="icon/обменять.png" class="action-icon" alt="Exchange">
                     <div class="action-text">Обменять</div>
                 </div>
             </div>
@@ -117,14 +117,14 @@
                 <button onclick="logout()" style="background:#222220; color:#D8FF01; border:none; padding:16px 45px; border-radius:30px; font-weight:800; cursor:pointer; font-size:16px; box-shadow: 0 4px 12px rgba(34,34,32,0.2);">Выйти из аккаунта</button>
             </div>
 
-            <!-- НИЖНЕЕ МЕНЮ -->
+            <!-- НИЖНЕЕ МЕНЮ (С ИКОНКАМИ ИЗ ПАПКИ icon) -->
             <div class="bottom-nav">
                 <div class="nav-item active" id="navWallet">
-                    <div class="nav-icon">🪙</div>
+                    <img src="icon/кошелек.png" class="nav-icon" alt="Wallet">
                     <span>Кошелек</span>
                 </div>
                 <div class="nav-item" onclick="showToast('В разработке!', false)">
-                    <div class="nav-icon">👤</div>
+                    <img src="icon/профиль.png" class="nav-icon" alt="Profile">
                     <span>Профиль</span>
                 </div>
             </div>
@@ -307,37 +307,16 @@
         }
 
         function renderCryptoList() {
+            // Оставляем только 8 криптовалют с локальными картинками
             const cryptos = [
-                { name: 'Bitcoin', sub: 'BTC', color: '#F7931A', rate: '7 875 694' },
-                { name: 'Ethereum', sub: 'ETH', color: '#627EEA', rate: '289 450' },
-                { name: 'Toncoin', sub: 'TON', color: '#0098EA', rate: '467' },
-                { name: 'VasilCoin', sub: 'VSL', color: '#D8FF01', rate: '100' },
-                { name: 'Dogecoin', sub: 'DOGE', color: '#C2A633', rate: '12' },
-                { name: 'Solana', sub: 'SOL', color: '#9945FF', rate: '16 234' },
-                { name: 'Cardano', sub: 'ADA', color: '#0033AD', rate: '46' },
-                { name: 'Polkadot', sub: 'DOT', color: '#E6007A', rate: '890' },
-                { name: 'Chainlink', sub: 'LINK', color: '#2A5ADA', rate: '1 430' },
-                { name: 'Polygon', sub: 'MATIC', color: '#8247E5', rate: '89' },
-                { name: 'Litecoin', sub: 'LTC', color: '#345D9D', rate: '7 124' },
-                { name: 'Uniswap', sub: 'UNI', color: '#FF007A', rate: '690' },
-                { name: 'Avalanche', sub: 'AVAX', color: '#E84142', rate: '3 021' },
-                { name: 'Cosmos', sub: 'ATOM', color: '#2E3148', rate: '780' },
-                { name: 'Stellar', sub: 'XLM', color: '#14B4E4', rate: '11' },
-                { name: 'Monero', sub: 'XMR', color: '#FF6600', rate: '13 950' },
-                { name: 'Algorand', sub: 'ALGO', color: '#000000', rate: '23' },
-                { name: 'VeChain', sub: 'VET', color: '#158BDE', rate: '3' },
-                { name: 'Filecoin', sub: 'FIL', color: '#0090FF', rate: '520' },
-                { name: 'Aptos', sub: 'APT', color: '#FFFFFF', rate: '830' },
-                { name: 'Optimism', sub: 'OP', color: '#FF0420', rate: '290' },
-                { name: 'Arbitrum', sub: 'ARB', color: '#2D374B', rate: '120' },
-                { name: 'The Graph', sub: 'GRT', color: '#6748E8', rate: '19' },
-                { name: 'Render', sub: 'RNDR', color: '#000000', rate: '540' },
-                { name: 'Injective', sub: 'INJ', color: '#00F2FE', rate: '2 800' },
-                { name: 'Sui', sub: 'SUI', color: '#4DA2FF', rate: '190' },
-                { name: 'Mantle', sub: 'MNT', color: '#000000', rate: '85' },
-                { name: 'Sei', sub: 'SEI', color: '#0F0F0F', rate: '78' },
-                { name: 'Stacks', sub: 'STX', color: '#5546FF', rate: '290' },
-                { name: 'Bittensor', sub: 'TAO', color: '#2A2A2A', rate: '25 400' }
+                { name: 'Bitcoin', sub: 'BTC', file: 'Bitcoin.png' },
+                { name: 'ETN', sub: 'ETN', file: 'Etn.png' },
+                { name: 'Toncoin', sub: 'TON', file: 'ton.png' },
+                { name: 'VasilCoin', sub: 'VSL', file: 'VasilCoin.png' },
+                { name: 'Dogecoin', sub: 'DOGE', file: 'Doge.png' },
+                { name: 'Solana', sub: 'SOL', file: 'Solana.png' },
+                { name: 'Cardano', sub: 'ADA', file: 'Cardano.png' },
+                { name: 'XRP', sub: 'XRP', file: 'Xrp.png' }
             ];
 
             const container = document.getElementById('cryptoListContainer');
@@ -346,10 +325,12 @@
                 const el = document.createElement('div');
                 el.className = 'crypto-item';
                 el.onclick = () => showToast('Функция в разработке!', false);
-                const rateDisplay = c.rate.replace(/\s/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+                const rateDisplay = '0,00'; // Пока оставляем курс 0.00, так как нет функционала
                 el.innerHTML = `
                     <div class="crypto-left">
-                        <div class="crypto-icon" style="background:${c.color}">${c.name.charAt(0)}</div>
+                        <div class="crypto-icon">
+                            <img src="CryptoLog/${c.file}" alt="${c.name}">
+                        </div>
                         <div class="crypto-info">
                             <div class="crypto-name">${c.name}</div>
                             <div class="crypto-sub">${c.sub} · ${rateDisplay} ₽</div>
