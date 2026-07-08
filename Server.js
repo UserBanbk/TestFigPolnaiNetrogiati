@@ -1,5 +1,5 @@
 const express = require('express');
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const fs = require('fs');
@@ -22,17 +22,11 @@ const saveDB = (db) => {
     fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2));
 };
 
-// НАСТРОЙКА ВАШЕЙ ПОЧТЫ (ЗАМЕНИТЕ ТОЛЬКО ПАРОЛЬ НИЖЕ!)
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: 'VasilCryptoBank@gmail.com', // Ваша почта
-        pass: 'ВАШ_16_ЗНАЧНЫЙ_ПАРОЛЬ_ПРИЛОЖЕНИЯ' // Замените на пароль от приложения!
-    }
-});
+// ВАШ КЛЮЧ RESEND УЖЕ ВСТАВЛЕН СЮДА
+const resend = new Resend('re_c7ptjb8F_EVTFsQNTH57ppssQqeE9TGKy');
 
 // 1. Регистрация
-app.post('/api/register', (req, res) => {
+app.post('/api/register', async (req, res) => {
     const { nick, email, pass, region } = req.body;
     const db = loadDB();
     
@@ -42,26 +36,26 @@ app.post('/api/register', (req, res) => {
 
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     db.codes[email] = code;
-    
-    // Временно сохраняем данные пользователя (отмечаем, что не подтвержден)
     db.users.push({ nick, email, pass, region, verified: false });
     saveDB(db);
 
-    // ОТПРАВКА РЕАЛЬНОГО ПИСЬМА
-    transporter.sendMail({
-        from: 'VasilCryptoBank@gmail.com',
-        to: email,
-        subject: 'Код подтверждения Крипта Банк',
-        text: `Ваш код подтверждения для входа: ${code}`
-    }).catch(err => {
-        console.log('Ошибка отправки почты:', err);
-    });
+    try {
+        await resend.emails.send({
+            from: 'VasilCryptoBank@gmail.com',
+            to: email,
+            subject: 'Код подтверждения Крипта Банк',
+            text: `Ваш код подтверждения: ${code}`
+        });
+    } catch (error) {
+        console.log('Ошибка отправки письма:', error);
+        return res.status(500).json({ message: 'Ошибка отправки письма.' });
+    }
 
     res.json({ message: 'Код отправлен на почту!' });
 });
 
 // 2. Вход
-app.post('/api/login', (req, res) => {
+app.post('/api/login', async (req, res) => {
     const { email, pass } = req.body;
     const db = loadDB();
     const user = db.users.find(u => u.email === email && u.pass === pass);
@@ -74,17 +68,22 @@ app.post('/api/login', (req, res) => {
     db.codes[email] = code;
     saveDB(db);
 
-    transporter.sendMail({
-        from: 'VasilCryptoBank@gmail.com',
-        to: email,
-        subject: 'Код для входа в Крипта Банк',
-        text: `Ваш код для входа: ${code}`
-    }).catch(err => console.log('Ошибка отправки почты:', err));
+    try {
+        await resend.emails.send({
+            from: 'VasilCryptoBank@gmail.com',
+            to: email,
+            subject: 'Код для входа в Крипта Банк',
+            text: `Ваш код для входа: ${code}`
+        });
+    } catch (error) {
+        console.log('Ошибка отправки письма:', error);
+        return res.status(500).json({ message: 'Ошибка отправки письма.' });
+    }
 
     res.json({ message: 'Код отправлен на почту!' });
 });
 
-// 3. Проверка кода и вход
+// 3. Проверка кода
 app.post('/api/verify', (req, res) => {
     const { email, code } = req.body;
     const db = loadDB();
@@ -101,7 +100,7 @@ app.post('/api/verify', (req, res) => {
     res.status(400).json({ message: 'Неверный код' });
 });
 
-// 4. Проверка сессии
+// 4. Проверка сессии (чтобы при перезагрузке не просил вход)
 app.post('/api/check-session', (req, res) => {
     const { email } = req.body;
     const db = loadDB();
@@ -112,6 +111,7 @@ app.post('/api/check-session', (req, res) => {
     res.json({ valid: false });
 });
 
+// Запуск сервера на всех интерфейсах
 app.listen(3000, '0.0.0.0', () => {
     console.log('Сервер Крипта Банка запущен на порту 3000');
 });
