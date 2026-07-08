@@ -97,9 +97,7 @@ body {
 
 @keyframes slideUp { 0% { opacity: 0; transform: translateY(30px); } 100% { opacity: 1; transform: translateY(0); } }
 
-/* =============================== */
-/* СТИЛИ ДЛЯ ПУСТОГО БЕЛОГО ЭКРАНА */
-/* =============================== */
+
 #dashboardScreen {
     position: fixed;
     top: 0;
