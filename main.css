@@ -1,158 +1,131 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Регистрация</title>
-    <link rel="stylesheet" href="main.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800;900&display=swap" rel="stylesheet">
-</head>
-<body>
-    <div id="notificationToast" class="notification-toast">
-        <div class="notif-content"><p id="notifMessage">Текст уведомления</p></div>
-    </div>
+:root {
+    --bg-color: #D8FF01;
+    --text-color: #222220;
+    --input-bg: rgba(255, 255, 255, 0.6);
+    --input-border: rgba(34, 34, 32, 0.15);
+    --btn-bg: #222220;
+    --btn-text: #D8FF01;
+    --btn-hover: #000000;
+    --shadow-color: rgba(34, 34, 32, 0.2);
+    --card-bg: rgba(255, 255, 255, 0.5);
+}
 
-    <div class="app-container">
-        <div id="headerSection" class="header-section">
-            <img src="BankLogo.png" alt="Bank Logo" class="logo">
-            <h1 class="greeting-title">Добро Пожаловать в<br>Международный<br>Крипта Банк</h1>
-        </div>
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-        <div id="authScreen" class="screen auth-wrapper active">
-            <form id="registerForm" class="auth-form active">
-                <div class="input-group"><input type="text" id="regNick" required></div>
-                <div class="input-group"><input type="email" id="regEmail" required></div>
-                <div class="input-group">
-                    <input type="password" id="regPass" required>
-                    <span class="toggle-password" onclick="togglePasswordVisibility('regPass')">👁️</span>
-                </div>
-                <div class="input-group">
-                    <input type="password" id="regPassConfirm" required>
-                    <span class="toggle-password" onclick="togglePasswordVisibility('regPassConfirm')">👁️</span>
-                </div>
-                <button type="submit" class="submit-btn" id="regBtn">Зарегистрироваться</button>
-                <div class="auth-switch"><span class="switch-text" onclick="toggleAuth()">Есть аккаунт? Войти</span></div>
-            </form>
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
 
-            <form id="loginForm" class="auth-form">
-                <div class="input-group"><input type="text" id="loginNick" required></div>
-                <div class="input-group"><input type="email" id="loginEmail" required></div>
-                <div class="input-group">
-                    <input type="password" id="loginPass" required>
-                    <span class="toggle-password" onclick="togglePasswordVisibility('loginPass')">👁️</span>
-                </div>
-                <button type="submit" class="submit-btn" id="loginBtn">Войти</button>
-                <div class="auth-switch"><span class="switch-text" onclick="toggleAuth()">Нет аккаунта? Зарегистрироваться</span></div>
-            </form>
-        </div>
+.app-container {
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
 
-        <div id="dashboardScreen">
-            <button onclick="logout()" class="logout-btn">Выйти из аккаунта</button>
-        </div>
-    </div>
+.notification-toast {
+    display: none;
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-80px);
+    width: 90%;
+    max-width: 380px;
+    padding: 16px 20px;
+    background-color: #222220;
+    color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    z-index: 9999;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-align: center;
+}
+.notification-toast.error { background-color: #cc0000; }
+.notification-toast.success { background-color: #1C7E34; }
+.notification-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-    <script>
-        let db = JSON.parse(localStorage.getItem('cryptoBankDB')) || { users: [] };
-        function saveDB() { localStorage.setItem('cryptoBankDB', JSON.stringify(db)); }
+.logo { display: block; width: 80%; max-width: 300px; height: auto; margin: 0 auto 25px auto; border-radius: 20px; }
+.header-section { text-align: center; animation: slideUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.greeting-title { font-size: 28px; font-weight: 900; line-height: 1.2; margin-top: 5px; }
 
-        function togglePasswordVisibility(id) {
-            const input = document.getElementById(id);
-            const eye = input.parentElement.querySelector('.toggle-password');
-            if (input.type === 'password') { input.type = 'text'; eye.textContent = '👁️‍🗨️'; } 
-            else { input.type = 'password'; eye.textContent = '👁️'; }
-        }
+.auth-wrapper { position: relative; width: 100%; min-height: 420px; }
+.screen { width: 100%; flex-direction: column; gap: 20px; align-items: center; justify-content: center; }
 
-        function showToast(msg, success = false) {
-            const toast = document.getElementById('notificationToast');
-            document.getElementById('notifMessage').textContent = msg;
-            toast.className = 'notification-toast' + (success ? ' success' : ' error');
-            toast.style.display = 'flex';
-            setTimeout(() => toast.classList.add('show'), 10);
-            setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.style.display = 'none', 400); }, 3500);
-        }
+.auth-form {
+    width: 100%; display: flex; flex-direction: column; gap: 15px;
+    position: absolute; top: 0; left: 0;
+    opacity: 0; transform: translateY(20px); pointer-events: none;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.auth-form.active { opacity: 1; transform: translateY(0); pointer-events: auto; position: relative; }
 
-        function toggleAuth() {
-            const reg = document.getElementById('registerForm');
-            const log = document.getElementById('loginForm');
-            if (reg.classList.contains('active')) {
-                reg.classList.remove('active'); setTimeout(() => log.classList.add('active'), 200);
-            } else {
-                log.classList.remove('active'); setTimeout(() => reg.classList.add('active'), 200);
-            }
-        }
+.input-group { position: relative; width: 100%; }
+.input-group input {
+    width: 100%; padding: 18px 50px 18px 20px;
+    background: var(--card-bg); border: 1px solid var(--input-border);
+    border-radius: 16px; font-family: 'Montserrat', sans-serif;
+    font-size: 16px; font-weight: 600; color: var(--text-color);
+    outline: none; transition: all 0.3s ease; box-shadow: 0 4px 10px var(--shadow-color);
+}
+.input-group input:focus { transform: scale(1.02); }
 
-        function showDashboard() {
-            document.getElementById('authScreen').style.display = 'none';
-            document.getElementById('headerSection').style.display = 'none';
-            document.getElementById('dashboardScreen').style.display = 'flex';
-        }
+.toggle-password {
+    position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
+    cursor: pointer; user-select: none; opacity: 0.6; font-size: 22px;
+}
+.toggle-password:hover { opacity: 1; }
 
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const btn = document.getElementById('regBtn');
-            btn.textContent = 'Загрузка...';
+.submit-btn {
+    margin-top: 10px; padding: 20px; background: var(--btn-bg); color: var(--btn-text);
+    font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 800;
+    border: none; border-radius: 50px; cursor: pointer; text-transform: uppercase;
+}
+.submit-btn:hover { background: var(--btn-hover); transform: translateY(-3px); }
 
-            const nick = document.getElementById('regNick').value;
-            const email = document.getElementById('regEmail').value;
-            const pass = document.getElementById('regPass').value;
-            const passConfirm = document.getElementById('regPassConfirm').value;
+.auth-switch { text-align: center; margin-top: 10px; }
+.switch-text { font-weight: 700; font-size: 15px; opacity: 0.7; cursor: pointer; color: var(--text-color); }
 
-            if (pass !== passConfirm) { showToast('Пароли не совпадают!'); btn.textContent = 'Зарегистрироваться'; return; }
-            if (db.users.find(u => u.nick === nick)) { showToast('Этот Ник занят!'); btn.textContent = 'Зарегистрироваться'; return; }
-            if (db.users.find(u => u.email === email)) { showToast('Эта почта занята!'); btn.textContent = 'Зарегистрироваться'; return; }
+@keyframes slideUp { 0% { opacity: 0; transform: translateY(30px); } 100% { opacity: 1; transform: translateY(0); } }
 
-            db.users.push({ nick, email, pass, loginAttempts: 0, blockedUntil: null });
-            saveDB();
-            localStorage.setItem('cryptoBankSession', email);
-            showToast('Регистрация успешна!', true);
-            setTimeout(showDashboard, 500);
-            btn.textContent = 'Зарегистрироваться';
-        });
+/* =============================== */
+/* СТИЛИ ДЛЯ ПУСТОГО БЕЛОГО ЭКРАНА */
+/* =============================== */
+#dashboardScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #ffffff !important;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    margin: 0;
+    padding: 0;
+}
 
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const btn = document.getElementById('loginBtn');
-            btn.textContent = 'Загрузка...';
-
-            const nick = document.getElementById('loginNick').value;
-            const email = document.getElementById('loginEmail').value;
-            const pass = document.getElementById('loginPass').value;
-            const user = db.users.find(u => u.nick === nick && u.email === email);
-
-            if (!user) { showToast('Неверные данные!'); btn.textContent = 'Войти'; return; }
-            if (user.blockedUntil && user.blockedUntil > Date.now()) {
-                const h = Math.ceil((user.blockedUntil - Date.now()) / (1000 * 60 * 60));
-                showToast(`Попытки исчерпаны. Ждите ${h} ч.`); btn.textContent = 'Войти'; return;
-            }
-
-            if (user.pass === pass) {
-                user.loginAttempts = 0; user.blockedUntil = null; saveDB();
-                localStorage.setItem('cryptoBankSession', email);
-                showToast('Вход успешен!', true);
-                setTimeout(showDashboard, 500);
-            } else {
-                user.loginAttempts = (user.loginAttempts || 0) + 1;
-                if (user.loginAttempts >= 3) {
-                    user.blockedUntil = Date.now() + (24 * 60 * 60 * 1000); saveDB();
-                    showToast('Попытки исчерпаны. Блок на 24 часа.');
-                } else {
-                    saveDB();
-                    showToast(`Неверный пароль. Осталось ${3 - user.loginAttempts} попыток.`);
-                }
-            }
-            btn.textContent = 'Войти';
-        });
-
-        const savedEmail = localStorage.getItem('cryptoBankSession');
-        if (savedEmail) {
-            const user = db.users.find(u => u.email === savedEmail);
-            if (user) { showDashboard(); } else { localStorage.removeItem('cryptoBankSession'); }
-        }
-
-        function logout() { 
-            localStorage.removeItem('cryptoBankSession'); 
-            location.reload(); 
-        }
-    </script>
-</body>
-</html>
+.logout-btn {
+    background: #ff4d4d;
+    color: #ffffff;
+    border: none;
+    padding: 18px 45px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(255, 77, 77, 0.3);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.logout-btn:hover { transform: translateY(-3px) scale(1.02); background: #cc0000; }
