@@ -8,6 +8,9 @@
     --btn-hover: #000000;
     --shadow-color: rgba(34, 34, 32, 0.2);
     --card-bg: rgba(255, 255, 255, 0.5);
+    --wallet-bg: #0D0D0D;
+    --wallet-card: #1A1A24;
+    --wallet-lime: #D8FF01;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -25,30 +28,21 @@ body {
 
 .app-container {
     width: 100%;
-    max-width: 400px;
+    max-width: 420px;
     position: relative;
     display: flex;
     flex-direction: column;
     gap: 30px;
 }
 
+
 .notification-toast {
-    display: none;
-    position: fixed;
-    top: 20px;
-    left: 50%;
+    display: none; position: fixed; top: 20px; left: 50%;
     transform: translateX(-50%) translateY(-80px);
-    width: 90%;
-    max-width: 380px;
-    padding: 16px 20px;
-    background-color: #222220;
-    color: #ffffff;
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    z-index: 9999;
-    opacity: 0;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    text-align: center;
+    width: 90%; max-width: 380px; padding: 16px 20px;
+    background-color: #222220; color: #ffffff; border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 9999;
+    opacity: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-align: center;
 }
 .notification-toast.error { background-color: #cc0000; }
 .notification-toast.success { background-color: #1C7E34; }
@@ -97,35 +91,141 @@ body {
 
 @keyframes slideUp { 0% { opacity: 0; transform: translateY(30px); } 100% { opacity: 1; transform: translateY(0); } }
 
-/* =============================== */
-/* СТИЛИ ДЛЯ ПУСТОГО БЕЛОГО ЭКРАНА */
-/* =============================== */
 #dashboardScreen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: #ffffff !important;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    margin: 0;
-    padding: 0;
+    display: none; flex-direction: column;
+    background-color: var(--wallet-bg); color: #ffffff;
+    width: 100vw; height: 100vh; position: fixed; top: 0; left: 0;
+    overflow-y: auto; z-index: 9998; padding-bottom: 90px;
 }
 
-.logout-btn {
-    background: #ff4d4d;
-    color: #ffffff;
-    border: none;
-    padding: 18px 45px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 20px;
-    font-weight: 800;
-    border-radius: 50px;
-    cursor: pointer;
-    box-shadow: 0 8px 25px rgba(255, 77, 77, 0.3);
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+.wallet-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px; padding-top: 40px;
 }
-.logout-btn:hover { transform: translateY(-3px) scale(1.02); background: #cc0000; }
+.wallet-avatar-area { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+.wallet-avatar {
+    width: 45px; height: 45px; border-radius: 50%; background-color: #2A2F3A;
+    display: flex; justify-content: center; align-items: center;
+    font-size: 24px; font-weight: 900; color: #fff; overflow: hidden; border: 2px solid var(--wallet-lime);
+}
+.wallet-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.avatar-hint { font-size: 10px; color: #888; font-weight: 700; margin-top: 4px; }
+
+.wallet-tabs {
+    display: flex; gap: 10px; background: #1A1A24; padding: 4px; border-radius: 30px;
+}
+.wallet-tab {
+    padding: 8px 16px; border-radius: 30px; font-weight: 800; cursor: pointer;
+    color: #888; font-size: 13px; transition: 0.3s;
+}
+.wallet-tab.active { background-color: #2A2F3A; color: #fff; }
+.wallet-tab.active.vasil-tab { background-color: var(--wallet-lime); color: #0D0D0D; }
+
+/* Баннер */
+.banner-card {
+    margin: 0 16px 20px 16px; background: rgba(216, 255, 1, 0.05);
+    border: 1px solid var(--wallet-lime); border-radius: 20px; padding: 20px;
+    display: flex; flex-direction: column; gap: 8px; box-shadow: 0 0 20px rgba(216, 255, 1, 0.1);
+}
+.banner-title { font-size: 22px; font-weight: 900; color: #fff; }
+.banner-small { font-size: 14px; color: #888; font-weight: 700; }
+
+/* Сетка игр */
+.games-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 16px 20px 16px;
+}
+.game-card {
+    border-radius: 20px; padding: 20px 10px; aspect-ratio: 1 / 1;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    cursor: pointer; transition: 0.2s; border: 1px solid rgba(255,255,255,0.05);
+    text-align: center;
+}
+.game-card:active { transform: scale(0.95); }
+.purple-card { background: linear-gradient(135deg, #4c1d95, #7c3aed); }
+.blue-card { background: linear-gradient(135deg, #1e3a8a, #3b82f6); }
+.cyan-card { background: linear-gradient(135deg, #0e7490, #06b6d4); }
+.green-card { background: linear-gradient(135deg, #065f46, #10b981); }
+.game-icon { font-size: 35px; margin-bottom: 10px; }
+.game-title { font-weight: 900; color: #fff; font-size: 16px; margin-bottom: 5px; }
+.game-desc { font-weight: 600; color: rgba(255,255,255,0.7); font-size: 11px; }
+
+/* Кошелек (Список монет) */
+.wallet-view { display: none; flex-direction: column; padding: 0 16px; }
+.wallet-view.active { display: flex; }
+
+.wallet-actions {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 25px;
+}
+.action-btn {
+    background: #1A1A24; border-radius: 16px; padding: 15px 0;
+    display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer;
+}
+.action-btn:active { border: 1px solid var(--wallet-lime); }
+.action-icon { font-size: 20px; color: #fff; }
+.action-text { font-size: 12px; font-weight: 700; color: #c0c0c0; }
+
+.wallet-list-title { font-size: 14px; font-weight: 800; color: #888; margin-bottom: 10px; margin-top: 5px; }
+.crypto-item {
+    background: #1A1A24; border-radius: 16px; padding: 14px 16px; margin-bottom: 12px;
+    display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+}
+.crypto-item:active { transform: scale(0.98); }
+.crypto-left { display: flex; align-items: center; gap: 15px; }
+.crypto-icon {
+    width: 35px; height: 35px; border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
+    font-weight: 900; font-size: 14px; color: #fff;
+}
+.crypto-info { display: flex; flex-direction: column; }
+.crypto-name { font-weight: 800; font-size: 15px; }
+.crypto-sub { font-size: 12px; color: #888; font-weight: 600; }
+.crypto-right { text-align: right; }
+.crypto-price { font-weight: 800; font-size: 15px; }
+
+/* Экран Vasil (Белый) */
+.vasil-screen {
+    display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background-color: #ffffff; z-index: 99999;
+    flex-direction: column; align-items: center; justify-content: center; gap: 20px;
+}
+.vasil-screen.active { display: flex; }
+.vasil-back-btn {
+    background: var(--wallet-lime); color: #0D0D0D; border: none;
+    padding: 16px 40px; font-family: 'Montserrat'; font-size: 18px; font-weight: 800; border-radius: 50px; cursor: pointer;
+}
+
+/* Модалка валют */
+.currency-modal {
+    display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.7); z-index: 99999; justify-content: center; align-items: center;
+}
+.currency-modal.active { display: flex; }
+.currency-select {
+    background: #1A1A24; padding: 20px; border-radius: 20px;
+    display: flex; flex-direction: column; gap: 15px; width: 80%; max-width: 300px;
+}
+.currency-option {
+    background: #2A2F3A; padding: 12px; text-align: center; border-radius: 12px;
+    color: #fff; font-weight: 700; cursor: pointer;
+}
+.currency-option:active { background: var(--wallet-lime); color: #0D0D0D; }
+
+.bottom-nav {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: rgba(13, 13, 13, 0.95); backdrop-filter: blur(15px);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    display: flex; justify-content: space-around; padding: 8px 0 20px 0;
+    z-index: 10000;
+}
+.nav-item {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    cursor: pointer; color: rgba(255,255,255,0.4); transition: 0.2s; font-size: 12px; font-weight: 700;
+    min-width: 50px;
+}
+.nav-item.active { color: var(--wallet-lime); }
+.nav-item:active { transform: scale(0.9); }
+.nav-icon { font-size: 22px; margin-bottom: 2px; }
+
+/* Кнопка выхода */
+.logout-wrapper { padding: 20px 0; text-align: center; }
