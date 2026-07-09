@@ -1,1 +1,258 @@
-п
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Пополнение USDT (TON) – CryptoBot</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; font-family:system-ui, sans-serif; }
+        body { background:#0b0e1a; min-height:100vh; display:flex; justify-content:center; align-items:center; padding:20px; color:#f0f4ff; }
+        .container { max-width:440px; width:100%; background:rgba(255,255,255,0.05); backdrop-filter:blur(12px); border-radius:40px; padding:30px 24px; border:1px solid rgba(255,255,255,0.08); box-shadow:0 25px 50px rgba(0,0,0,0.6); }
+        h1 { font-size:26px; font-weight:600; display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+        h1 small { font-size:14px; opacity:0.5; font-weight:400; }
+        .balance-card { background:rgba(0,0,0,0.3); border-radius:28px; padding:24px 16px; margin:20px 0 28px; text-align:center; border:1px solid rgba(255,255,255,0.05); }
+        .balance-label { font-size:13px; text-transform:uppercase; letter-spacing:2px; opacity:0.5; }
+        .balance-amount { font-size:48px; font-weight:700; background:linear-gradient(135deg,#f0f4ff,#7b9aff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; line-height:1.2; }
+        .balance-currency { font-size:22px; -webkit-text-fill-color:#ccc; opacity:0.6; }
+        .btn { display:inline-flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:16px 0; border:none; border-radius:60px; font-size:18px; font-weight:600; cursor:pointer; transition:0.2s; background:#3b4eff; color:#fff; box-shadow:0 8px 24px rgba(59,78,255,0.3); }
+        .btn:hover { transform:scale(1.02); }
+        .btn:active { transform:scale(0.97); }
+        .btn:disabled { opacity:0.4; pointer-events:none; }
+        .btn-secondary { background:rgba(255,255,255,0.08); box-shadow:none; }
+        .btn-secondary:hover { background:rgba(255,255,255,0.15); }
+        .form-group { margin-bottom:20px; }
+        .form-group label { display:block; font-size:13px; opacity:0.6; margin-bottom:6px; }
+        .form-group input { width:100%; padding:14px 18px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.08); border-radius:20px; color:#fff; font-size:18px; outline:none; transition:0.2s; }
+        .form-group input:focus { border-color:#3b4eff; box-shadow:0 0 0 3px rgba(59,78,255,0.2); }
+        .form-group input::placeholder { color:rgba(255,255,255,0.2); }
+        .modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); backdrop-filter:blur(6px); justify-content:center; align-items:center; z-index:1000; padding:20px; }
+        .modal-overlay.active { display:flex; }
+        .modal { background:#1a1f33; border-radius:36px; max-width:400px; width:100%; padding:28px 22px; border:1px solid rgba(255,255,255,0.05); animation:fadeUp 0.25s ease-out; }
+        @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+        .modal-title { font-size:22px; font-weight:600; }
+        .modal-sub { font-size:14px; opacity:0.6; margin:4px 0 20px; }
+        .hidden { display:none; }
+        .text-center { text-align:center; }
+        .mt-12 { margin-top:12px; }
+        .status-msg { padding:10px; border-radius:16px; background:rgba(255,255,255,0.05); font-size:14px; margin-top:12px; }
+        .status-msg.success { background:rgba(0,255,100,0.1); color:#7fff7f; }
+        .status-msg.error { background:rgba(255,0,0,0.1); color:#ff7f7f; }
+        .status-msg.info { background:rgba(100,150,255,0.1); color:#8ab4ff; }
+        .payment-info { background:rgba(0,0,0,0.2); border-radius:16px; padding:16px; margin:12px 0; word-break:break-all; font-family:monospace; font-size:14px; }
+        .payment-info strong { color:#7b9aff; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>💰 Кошелёк <small>USDT (TON)</small></h1>
+    <div class="balance-card">
+        <div class="balance-label">Ваш баланс</div>
+        <div class="balance-amount">
+            <span id="balanceDisplay">0.00</span>
+            <span class="balance-currency">USDT</span>
+        </div>
+    </div>
+    <button class="btn" id="depositBtn">➕ Пополнить</button>
+    <div style="margin-top:10px; font-size:12px; opacity:0.4; text-align:center;">Через CryptoBot • USDT (TON)</div>
+</div>
+
+<div class="modal-overlay" id="depositModal">
+    <div class="modal">
+        <div class="modal-title">💵 Пополнение</div>
+        <div class="modal-sub">Введите сумму в USD, оплатите USDT (TON)</div>
+
+        <div id="step1">
+            <div class="form-group">
+                <label>Сумма (USD)</label>
+                <input type="number" id="amountInput" placeholder="Например: 10" step="0.01" min="0.01" value="10" />
+            </div>
+            <button class="btn" id="createPaymentBtn">💳 Создать счёт</button>
+        </div>
+
+        <div id="step2" class="hidden">
+            <p style="font-size:14px; opacity:0.7; margin-bottom:8px;">Оплатите по ссылке или переведите на адрес:</p>
+            <div class="payment-info">
+                <div><strong>Ссылка для оплаты:</strong> <a href="#" id="payLink" target="_blank" style="color:#7b9aff;">Открыть</a></div>
+                <div><strong>Адрес (если не открывается):</strong> <span id="payAddress">—</span></div>
+                <div><strong>Сумма:</strong> <span id="payAmount">0.00</span> USDT</div>
+                <div><strong>Статус:</strong> <span id="payStatus">Ожидание</span></div>
+            </div>
+            <p style="font-size:13px; opacity:0.5; text-align:center;">После оплаты баланс зачислится автоматически.</p>
+            <button class="btn btn-secondary mt-12" id="cancelPayBtn">Отмена</button>
+        </div>
+
+        <div id="statusMessage" class="status-msg hidden"></div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // ---------- ВАШ API-ТОКЕН (уже вставлен) ----------
+        const API_KEY = '606961:AAzbHxn05Vy9VYe1HW4Y2cy6513l9igBhKf';
+        const API_URL = 'https://api.cryptobot.codes/v1';
+
+        let balance = parseFloat(localStorage.getItem('usdtBalance')) || 0;
+        let invoiceId = null;
+        let checkInterval = null;
+
+        const balanceDisplay = document.getElementById('balanceDisplay');
+        const depositBtn = document.getElementById('depositBtn');
+        const modal = document.getElementById('depositModal');
+        const step1 = document.getElementById('step1');
+        const step2 = document.getElementById('step2');
+        const amountInput = document.getElementById('amountInput');
+        const createPaymentBtn = document.getElementById('createPaymentBtn');
+        const cancelPayBtn = document.getElementById('cancelPayBtn');
+        const statusMsg = document.getElementById('statusMessage');
+        const payLink = document.getElementById('payLink');
+        const payAddress = document.getElementById('payAddress');
+        const payAmount = document.getElementById('payAmount');
+        const payStatus = document.getElementById('payStatus');
+
+        function updateBalanceUI() {
+            balanceDisplay.textContent = balance.toFixed(2);
+            localStorage.setItem('usdtBalance', balance.toString());
+        }
+        updateBalanceUI();
+
+        function showStatus(msg, type = 'info') {
+            statusMsg.textContent = msg;
+            statusMsg.className = 'status-msg ' + type;
+            statusMsg.classList.remove('hidden');
+        }
+        function hideStatus() { statusMsg.classList.add('hidden'); }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            step1.classList.remove('hidden');
+            step2.classList.add('hidden');
+            hideStatus();
+            if (checkInterval) { clearInterval(checkInterval); checkInterval = null; }
+            invoiceId = null;
+            createPaymentBtn.disabled = false;
+        }
+
+        function openModal() {
+            modal.classList.add('active');
+            step1.classList.remove('hidden');
+            step2.classList.add('hidden');
+            hideStatus();
+            amountInput.value = '10';
+        }
+
+        // Создание инвойса через CryptoBot
+        async function createInvoice() {
+            const amountUSD = parseFloat(amountInput.value);
+            if (!amountUSD || amountUSD <= 0) {
+                showStatus('Введите корректную сумму (больше 0)', 'error');
+                return;
+            }
+
+            createPaymentBtn.disabled = true;
+            showStatus('⏳ Создание счёта...', 'info');
+
+            try {
+                const payload = {
+                    asset: 'USDT',
+                    amount: amountUSD,
+                    description: `Пополнение на ${amountUSD} USD`,
+                    hidden_message: 'Спасибо за оплату!',
+                    paid_btn_name: 'openBot',
+                    paid_btn_url: 'https://t.me/YourBot'
+                };
+
+                const response = await fetch(`${API_URL}/createInvoice`, {
+                    method: 'POST',
+                    headers: {
+                        'Crypto-Pay-API-Token': API_KEY,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await response.json();
+                console.log('Ответ CryptoBot:', data);
+
+                if (!response.ok || !data.ok) {
+                    throw new Error(data.error || 'Ошибка создания инвойса');
+                }
+
+                const invoice = data.result;
+                invoiceId = invoice.invoice_id;
+
+                payLink.href = invoice.pay_url || invoice.bot_url;
+                payLink.textContent = 'Перейти к оплате';
+                payAddress.textContent = invoice.pay_address || invoice.pay_url || '—';
+                payAmount.textContent = invoice.amount + ' ' + invoice.asset;
+                payStatus.textContent = 'Ожидание оплаты...';
+
+                step1.classList.add('hidden');
+                step2.classList.remove('hidden');
+                hideStatus();
+
+                if (checkInterval) clearInterval(checkInterval);
+                checkInterval = setInterval(checkInvoiceStatus, 5000);
+
+            } catch (error) {
+                console.error('Ошибка:', error);
+                showStatus('❌ ' + error.message, 'error');
+                createPaymentBtn.disabled = false;
+            }
+        }
+
+        // Проверка статуса инвойса
+        async function checkInvoiceStatus() {
+            if (!invoiceId) return;
+
+            try {
+                const response = await fetch(`${API_URL}/getInvoices?invoice_ids=${invoiceId}`, {
+                    headers: { 'Crypto-Pay-API-Token': API_KEY }
+                });
+
+                const data = await response.json();
+                if (!data.ok) {
+                    console.warn('Ошибка получения статуса:', data.error);
+                    return;
+                }
+
+                const invoice = data.result.items[0];
+                if (!invoice) return;
+
+                payStatus.textContent = invoice.status;
+
+                if (invoice.status === 'paid' || invoice.status === 'completed') {
+                    if (checkInterval) { clearInterval(checkInterval); checkInterval = null; }
+                    const amountToAdd = parseFloat(invoice.amount) || 0;
+                    balance += amountToAdd;
+                    updateBalanceUI();
+                    showStatus(`✅ Пополнение на ${amountToAdd.toFixed(2)} USDT успешно!`, 'success');
+                    createPaymentBtn.disabled = false;
+                    setTimeout(closeModal, 3000);
+                } else if (invoice.status === 'expired' || invoice.status === 'failed') {
+                    if (checkInterval) { clearInterval(checkInterval); checkInterval = null; }
+                    showStatus('❌ Счёт истёк или оплата не прошла.', 'error');
+                    createPaymentBtn.disabled = false;
+                    setTimeout(() => {
+                        if (modal.classList.contains('active')) {
+                            step1.classList.remove('hidden');
+                            step2.classList.add('hidden');
+                            hideStatus();
+                        }
+                    }, 5000);
+                }
+            } catch (error) {
+                console.error('Ошибка проверки статуса:', error);
+            }
+        }
+
+        depositBtn.addEventListener('click', openModal);
+        cancelPayBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
+        createPaymentBtn.addEventListener('click', createInvoice);
+
+        console.log('Скрипт с токеном загружен. Если не работает — проверьте, что токен получен в @CryptoBot.');
+    })();
+</script>
+</body>
+</html>
