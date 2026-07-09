@@ -3,203 +3,49 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Пополнение USDT (TON) через NowPayments</title>
+    <title>Пополнение USDT (TON) – NowPayments</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: system-ui, -apple-system, sans-serif;
-        }
-        body {
-            background: #0b0e1a;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            color: #f0f4ff;
-        }
-        .container {
-            max-width: 440px;
-            width: 100%;
-            background: rgba(255,255,255,0.05);
-            backdrop-filter: blur(12px);
-            border-radius: 40px;
-            padding: 30px 24px;
-            border: 1px solid rgba(255,255,255,0.08);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.6);
-        }
-        h1 {
-            font-size: 26px;
-            font-weight: 600;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-        h1 small {
-            font-size: 14px;
-            opacity: 0.5;
-            font-weight: 400;
-        }
-        .balance-card {
-            background: rgba(0,0,0,0.3);
-            border-radius: 28px;
-            padding: 24px 16px;
-            margin: 20px 0 28px;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-        .balance-label {
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            opacity: 0.5;
-        }
-        .balance-amount {
-            font-size: 48px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #f0f4ff, #7b9aff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1.2;
-        }
-        .balance-currency {
-            font-size: 22px;
-            -webkit-text-fill-color: #ccc;
-            opacity: 0.6;
-        }
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            width: 100%;
-            padding: 16px 0;
-            border: none;
-            border-radius: 60px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            background: #3b4eff;
-            color: #fff;
-            box-shadow: 0 8px 24px rgba(59,78,255,0.3);
-        }
-        .btn:hover { transform: scale(1.02); }
-        .btn:active { transform: scale(0.97); }
-        .btn:disabled {
-            opacity: 0.4;
-            pointer-events: none;
-        }
-        .btn-secondary {
-            background: rgba(255,255,255,0.08);
-            box-shadow: none;
-        }
-        .btn-secondary:hover { background: rgba(255,255,255,0.15); }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            display: block;
-            font-size: 13px;
-            opacity: 0.6;
-            margin-bottom: 6px;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 14px 18px;
-            background: rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 20px;
-            color: #fff;
-            font-size: 18px;
-            outline: none;
-            transition: 0.2s;
-        }
-        .form-group input:focus {
-            border-color: #3b4eff;
-            box-shadow: 0 0 0 3px rgba(59,78,255,0.2);
-        }
-        .form-group input::placeholder {
-            color: rgba(255,255,255,0.2);
-        }
-
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            backdrop-filter: blur(6px);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            padding: 20px;
-        }
-        .modal-overlay.active { display: flex; }
-        .modal {
-            background: #1a1f33;
-            border-radius: 36px;
-            max-width: 400px;
-            width: 100%;
-            padding: 28px 22px;
-            border: 1px solid rgba(255,255,255,0.05);
-            animation: fadeUp 0.25s ease-out;
-        }
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .modal-title {
-            font-size: 22px;
-            font-weight: 600;
-        }
-        .modal-sub {
-            font-size: 14px;
-            opacity: 0.6;
-            margin: 4px 0 20px;
-        }
-        .hidden { display: none; }
-        .text-center { text-align: center; }
-        .mt-12 { margin-top: 12px; }
-        .status-msg {
-            padding: 10px;
-            border-radius: 16px;
-            background: rgba(255,255,255,0.05);
-            font-size: 14px;
-            margin-top: 12px;
-        }
-        .status-msg.success { background: rgba(0,255,100,0.1); color: #7fff7f; }
-        .status-msg.error { background: rgba(255,0,0,0.1); color: #ff7f7f; }
-        .status-msg.info { background: rgba(100,150,255,0.1); color: #8ab4ff; }
-        .payment-info {
-            background: rgba(0,0,0,0.2);
-            border-radius: 16px;
-            padding: 16px;
-            margin: 12px 0;
-            word-break: break-all;
-            font-family: monospace;
-            font-size: 14px;
-        }
-        .payment-info strong {
-            color: #7b9aff;
-        }
+        * { margin:0; padding:0; box-sizing:border-box; font-family:system-ui, sans-serif; }
+        body { background:#0b0e1a; min-height:100vh; display:flex; justify-content:center; align-items:center; padding:20px; color:#f0f4ff; }
+        .container { max-width:440px; width:100%; background:rgba(255,255,255,0.05); backdrop-filter:blur(12px); border-radius:40px; padding:30px 24px; border:1px solid rgba(255,255,255,0.08); box-shadow:0 25px 50px rgba(0,0,0,0.6); }
+        h1 { font-size:26px; font-weight:600; display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
+        h1 small { font-size:14px; opacity:0.5; font-weight:400; }
+        .balance-card { background:rgba(0,0,0,0.3); border-radius:28px; padding:24px 16px; margin:20px 0 28px; text-align:center; border:1px solid rgba(255,255,255,0.05); }
+        .balance-label { font-size:13px; text-transform:uppercase; letter-spacing:2px; opacity:0.5; }
+        .balance-amount { font-size:48px; font-weight:700; background:linear-gradient(135deg,#f0f4ff,#7b9aff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; line-height:1.2; }
+        .balance-currency { font-size:22px; -webkit-text-fill-color:#ccc; opacity:0.6; }
+        .btn { display:inline-flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:16px 0; border:none; border-radius:60px; font-size:18px; font-weight:600; cursor:pointer; transition:0.2s; background:#3b4eff; color:#fff; box-shadow:0 8px 24px rgba(59,78,255,0.3); }
+        .btn:hover { transform:scale(1.02); }
+        .btn:active { transform:scale(0.97); }
+        .btn:disabled { opacity:0.4; pointer-events:none; }
+        .btn-secondary { background:rgba(255,255,255,0.08); box-shadow:none; }
+        .btn-secondary:hover { background:rgba(255,255,255,0.15); }
+        .form-group { margin-bottom:20px; }
+        .form-group label { display:block; font-size:13px; opacity:0.6; margin-bottom:6px; }
+        .form-group input { width:100%; padding:14px 18px; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.08); border-radius:20px; color:#fff; font-size:18px; outline:none; transition:0.2s; }
+        .form-group input:focus { border-color:#3b4eff; box-shadow:0 0 0 3px rgba(59,78,255,0.2); }
+        .form-group input::placeholder { color:rgba(255,255,255,0.2); }
+        .modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); backdrop-filter:blur(6px); justify-content:center; align-items:center; z-index:1000; padding:20px; }
+        .modal-overlay.active { display:flex; }
+        .modal { background:#1a1f33; border-radius:36px; max-width:400px; width:100%; padding:28px 22px; border:1px solid rgba(255,255,255,0.05); animation:fadeUp 0.25s ease-out; }
+        @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+        .modal-title { font-size:22px; font-weight:600; }
+        .modal-sub { font-size:14px; opacity:0.6; margin:4px 0 20px; }
+        .hidden { display:none; }
+        .text-center { text-align:center; }
+        .mt-12 { margin-top:12px; }
+        .status-msg { padding:10px; border-radius:16px; background:rgba(255,255,255,0.05); font-size:14px; margin-top:12px; }
+        .status-msg.success { background:rgba(0,255,100,0.1); color:#7fff7f; }
+        .status-msg.error { background:rgba(255,0,0,0.1); color:#ff7f7f; }
+        .status-msg.info { background:rgba(100,150,255,0.1); color:#8ab4ff; }
+        .payment-info { background:rgba(0,0,0,0.2); border-radius:16px; padding:16px; margin:12px 0; word-break:break-all; font-family:monospace; font-size:14px; }
+        .payment-info strong { color:#7b9aff; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>
-        💰 Кошелёк
-        <small>USDT (TON)</small>
-    </h1>
-
+    <h1>💰 Кошелёк <small>USDT (TON)</small></h1>
     <div class="balance-card">
         <div class="balance-label">Ваш баланс</div>
         <div class="balance-amount">
@@ -207,20 +53,15 @@
             <span class="balance-currency">USDT</span>
         </div>
     </div>
-
     <button class="btn" id="depositBtn">➕ Пополнить</button>
-    <div style="margin-top:10px; font-size:12px; opacity:0.4; text-align:center;">
-        Оплата через NowPayments • USDT (TON)
-    </div>
+    <div style="margin-top:10px; font-size:12px; opacity:0.4; text-align:center;">Оплата через NowPayments • USDT (TON)</div>
 </div>
 
-<!-- Модальное окно -->
 <div class="modal-overlay" id="depositModal">
     <div class="modal">
         <div class="modal-title">💵 Пополнение</div>
         <div class="modal-sub">Введите сумму в USD и оплатите через USDT (TON)</div>
 
-        <!-- Шаг 1: ввод суммы -->
         <div id="step1">
             <div class="form-group">
                 <label>Сумма (USD)</label>
@@ -229,41 +70,32 @@
             <button class="btn" id="createPaymentBtn">💳 Создать счёт</button>
         </div>
 
-        <!-- Шаг 2: оплата -->
         <div id="step2" class="hidden">
-            <p style="font-size:14px; opacity:0.7; margin-bottom:8px;">
-                Оплатите указанную сумму на этот адрес:
-            </p>
+            <p style="font-size:14px; opacity:0.7; margin-bottom:8px;">Оплатите указанную сумму на этот адрес:</p>
             <div class="payment-info">
                 <div><strong>Адрес:</strong> <span id="payAddress">—</span></div>
                 <div><strong>Сумма:</strong> <span id="payAmount">0.00</span> USDT</div>
                 <div><strong>Статус:</strong> <span id="payStatus">Ожидание</span></div>
             </div>
-            <p style="font-size:13px; opacity:0.5; text-align:center;">
-                После отправки платежа баланс будет зачислен автоматически.
-            </p>
+            <p style="font-size:13px; opacity:0.5; text-align:center;">После отправки баланс зачислится автоматически.</p>
             <button class="btn btn-secondary mt-12" id="cancelPayBtn">Отмена</button>
         </div>
 
-        <!-- Статусные сообщения -->
         <div id="statusMessage" class="status-msg hidden"></div>
     </div>
 </div>
 
 <script>
     (function() {
-        // ---------- НАСТРОЙКИ ----------
-        // API-ключ NowPayments (замените на свой после теста!)
-        const API_KEY = 'ZDBX3SQ-97SMD6B-MGP2N7B-MPA587G';
-        // Базовая URL API
+        // ------------------ НОВЫЙ API-КЛЮЧ ------------------
+        const API_KEY = 'KTA7K8E-MHCM3XC-H9F6NEM-BZ4W6TE';  // <-- заменили
         const API_URL = 'https://api.nowpayments.io/v1';
 
-        // ---------- СОСТОЯНИЕ ----------
         let balance = parseFloat(localStorage.getItem('usdtBalance')) || 0;
         let paymentId = null;
         let checkInterval = null;
 
-        // DOM
+        // DOM-элементы
         const balanceDisplay = document.getElementById('balanceDisplay');
         const depositBtn = document.getElementById('depositBtn');
         const modal = document.getElementById('depositModal');
@@ -277,37 +109,29 @@
         const payAmount = document.getElementById('payAmount');
         const payStatus = document.getElementById('payStatus');
 
-        // Обновление баланса на UI
         function updateBalanceUI() {
             balanceDisplay.textContent = balance.toFixed(2);
             localStorage.setItem('usdtBalance', balance.toString());
         }
         updateBalanceUI();
 
-        // Показ статусного сообщения
         function showStatus(msg, type = 'info') {
             statusMsg.textContent = msg;
             statusMsg.className = 'status-msg ' + type;
             statusMsg.classList.remove('hidden');
         }
-        function hideStatus() {
-            statusMsg.classList.add('hidden');
-        }
+        function hideStatus() { statusMsg.classList.add('hidden'); }
 
-        // Закрытие модалки и сброс
         function closeModal() {
             modal.classList.remove('active');
             step1.classList.remove('hidden');
             step2.classList.add('hidden');
             hideStatus();
-            if (checkInterval) {
-                clearInterval(checkInterval);
-                checkInterval = null;
-            }
+            if (checkInterval) { clearInterval(checkInterval); checkInterval = null; }
             paymentId = null;
+            createPaymentBtn.disabled = false;
         }
 
-        // Открытие модалки
         function openModal() {
             modal.classList.add('active');
             step1.classList.remove('hidden');
@@ -316,7 +140,7 @@
             amountInput.value = '10';
         }
 
-        // Создание платежа через API NowPayments
+        // Создание платежа
         async function createPayment() {
             const amountUSD = parseFloat(amountInput.value);
             if (!amountUSD || amountUSD <= 0) {
@@ -324,59 +148,63 @@
                 return;
             }
 
-            // Блокируем кнопку
             createPaymentBtn.disabled = true;
             showStatus('⏳ Создание счёта...', 'info');
 
             try {
+                const payload = {
+                    price_amount: amountUSD,
+                    price_currency: 'usd',
+                    pay_currency: 'usdt',
+                    network: 'ton',
+                    order_id: `order_${Date.now()}_${Math.random().toString(36).substring(2,6)}`
+                };
+
+                console.log('Отправка запроса:', payload);
+
                 const response = await fetch(`${API_URL}/payment`, {
                     method: 'POST',
                     headers: {
                         'x-api-key': API_KEY,
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({
-                        price_amount: amountUSD,
-                        price_currency: 'usd',
-                        pay_currency: 'usdt',
-                        network: 'ton',          // указываем сеть TON
-                        order_id: `order_${Date.now()}`,
-                        // ipn_callback_url: 'https://ваш-сайт.com/webhook' // можно опционально
-                    })
+                    body: JSON.stringify(payload)
                 });
 
+                const responseData = await response.json();
+                console.log('Ответ сервера:', responseData);
+
                 if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || 'Ошибка создания платежа');
+                    let errorMsg = responseData.message || 'Ошибка создания платежа';
+                    if (responseData.errors) {
+                        errorMsg = Object.values(responseData.errors).flat().join('; ');
+                    }
+                    throw new Error(errorMsg);
                 }
 
-                const data = await response.json();
-                console.log('Payment created:', data);
+                if (!responseData.payment_id || !responseData.pay_address || !responseData.pay_amount) {
+                    throw new Error('Неполные данные от сервера: ' + JSON.stringify(responseData));
+                }
 
-                // Сохраняем ID платежа
-                paymentId = data.payment_id;
-                // Отображаем адрес и сумму
-                payAddress.textContent = data.pay_address || '—';
-                payAmount.textContent = data.pay_amount ? data.pay_amount.toFixed(6) : '0.00';
+                paymentId = responseData.payment_id;
+                payAddress.textContent = responseData.pay_address;
+                payAmount.textContent = responseData.pay_amount.toFixed(6);
                 payStatus.textContent = 'Ожидание оплаты...';
 
-                // Переключаем на шаг 2
                 step1.classList.add('hidden');
                 step2.classList.remove('hidden');
                 hideStatus();
 
-                // Запускаем проверку статуса
                 if (checkInterval) clearInterval(checkInterval);
                 checkInterval = setInterval(checkPaymentStatus, 5000);
 
             } catch (error) {
-                console.error(error);
+                console.error('Ошибка создания платежа:', error);
                 showStatus('❌ ' + error.message, 'error');
                 createPaymentBtn.disabled = false;
             }
         }
 
-        // Проверка статуса платежа
         async function checkPaymentStatus() {
             if (!paymentId) return;
 
@@ -386,23 +214,18 @@
                 });
 
                 if (!response.ok) {
-                    // Если ошибка, не останавливаем проверку (может быть временная)
-                    console.warn('Status check error:', response.status);
+                    console.warn('Status check HTTP error:', response.status);
                     return;
                 }
 
                 const data = await response.json();
+                console.log('Статус платежа:', data);
+
                 const status = data.payment_status;
                 payStatus.textContent = status;
 
-                // Если статус 'finished' – платёж подтверждён
                 if (status === 'finished' || status === 'completed' || status === 'confirmed') {
-                    // Останавливаем проверку
-                    if (checkInterval) {
-                        clearInterval(checkInterval);
-                        checkInterval = null;
-                    }
-                    // Сумма, которую зачисляем (в USDT, но мы зачисляем в USD? Лучше в USDT, но у нас баланс в USDT, так что зачисляем pay_amount)
+                    if (checkInterval) { clearInterval(checkInterval); checkInterval = null; }
                     const amountToAdd = parseFloat(data.pay_amount) || 0;
                     if (amountToAdd > 0) {
                         balance += amountToAdd;
@@ -411,39 +234,33 @@
                     } else {
                         showStatus('❌ Не удалось определить сумму зачисления', 'error');
                     }
-                    // Разблокируем кнопку и через 3 сек закроем модалку
                     createPaymentBtn.disabled = false;
                     setTimeout(closeModal, 3000);
                 } else if (status === 'expired' || status === 'failed' || status === 'refunded') {
-                    // Платёж не удался
-                    if (checkInterval) {
-                        clearInterval(checkInterval);
-                        checkInterval = null;
-                    }
+                    if (checkInterval) { clearInterval(checkInterval); checkInterval = null; }
                     showStatus('❌ Платёж не был оплачен или истёк. Попробуйте снова.', 'error');
                     createPaymentBtn.disabled = false;
-                    // Можно вернуть на шаг 1 через некоторое время
+                    setTimeout(() => {
+                        if (modal.classList.contains('active')) {
+                            step1.classList.remove('hidden');
+                            step2.classList.add('hidden');
+                            hideStatus();
+                        }
+                    }, 5000);
                 }
-                // Иначе ждём
-
             } catch (error) {
                 console.error('Ошибка проверки статуса:', error);
             }
         }
 
-        // Обработчики событий
+        // Обработчики
         depositBtn.addEventListener('click', openModal);
         cancelPayBtn.addEventListener('click', closeModal);
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) closeModal();
-        });
+        modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
         createPaymentBtn.addEventListener('click', createPayment);
 
-        // Инициализация (можно добавить логирование)
-        console.log('Скрипт загружен. Для работы используйте API-ключ NowPayments.');
-        console.log('Внимание! Ваш ключ опубликован, замените его на новый после теста.');
+        console.log('Скрипт с новым API-ключом загружен.');
     })();
 </script>
-
 </body>
 </html>
