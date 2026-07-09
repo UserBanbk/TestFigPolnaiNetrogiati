@@ -87,15 +87,14 @@
 
 <script>
     (function() {
-        // ------------------ НОВЫЙ API-КЛЮЧ ------------------
-        const API_KEY = 'KTA7K8E-MHCM3XC-H9F6NEM-BZ4W6TE';  // <-- заменили
+        // ---------- НОВЫЙ API-КЛЮЧ (замените на свой после теста) ----------
+        const API_KEY = 'KTA7K8E-MHCM3XC-H9F6NEM-BZ4W6TE';
         const API_URL = 'https://api.nowpayments.io/v1';
 
         let balance = parseFloat(localStorage.getItem('usdtBalance')) || 0;
         let paymentId = null;
         let checkInterval = null;
 
-        // DOM-элементы
         const balanceDisplay = document.getElementById('balanceDisplay');
         const depositBtn = document.getElementById('depositBtn');
         const modal = document.getElementById('depositModal');
@@ -140,7 +139,6 @@
             amountInput.value = '10';
         }
 
-        // Создание платежа
         async function createPayment() {
             const amountUSD = parseFloat(amountInput.value);
             if (!amountUSD || amountUSD <= 0) {
@@ -253,7 +251,6 @@
             }
         }
 
-        // Обработчики
         depositBtn.addEventListener('click', openModal);
         cancelPayBtn.addEventListener('click', closeModal);
         modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
