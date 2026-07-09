@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Пополнение USDT (TON) – CryptoBot</title>
     <style>
-        * { margin:0; padding:0; box-sizing:border-box; font-family:system-ui, sans-serif; }
+        * { margin:0; padding:0; box-sizing:border-box; font-family:system-ui, -apple-system, sans-serif; }
         body { background:#0b0e1a; min-height:100vh; display:flex; justify-content:center; align-items:center; padding:20px; color:#f0f4ff; }
         .container { max-width:440px; width:100%; background:rgba(255,255,255,0.05); backdrop-filter:blur(12px); border-radius:40px; padding:30px 24px; border:1px solid rgba(255,255,255,0.08); box-shadow:0 25px 50px rgba(0,0,0,0.6); }
         h1 { font-size:26px; font-weight:600; display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
@@ -88,7 +88,7 @@
 
 <script>
     (function() {
-        // ---------- ВАШ API-ТОКЕН (уже вставлен) ----------
+        // ВАШ ТОКЕН (уже вставлен)
         const API_KEY = '606961:AAzbHxn05Vy9VYe1HW4Y2cy6513l9igBhKf';
         const API_URL = 'https://api.cryptobot.codes/v1';
 
@@ -141,7 +141,7 @@
             amountInput.value = '10';
         }
 
-        // Создание инвойса через CryptoBot
+        // Создание инвойса
         async function createInvoice() {
             const amountUSD = parseFloat(amountInput.value);
             if (!amountUSD || amountUSD <= 0) {
@@ -251,7 +251,7 @@
         modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
         createPaymentBtn.addEventListener('click', createInvoice);
 
-        console.log('Скрипт с токеном загружен. Если не работает — проверьте, что токен получен в @CryptoBot.');
+        console.log('Скрипт загружен. Если ошибка "Invalid token" — замените токен на корректный из @CryptoBot.');
     })();
 </script>
 </body>
