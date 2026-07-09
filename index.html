@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Пополнение USDT (TON) – NowPayments</title>
+    <title>Пополнение USDT (TON) – CryptoBot</title>
     <style>
         * { margin:0; padding:0; box-sizing:border-box; font-family:system-ui, sans-serif; }
         body { background:#0b0e1a; min-height:100vh; display:flex; justify-content:center; align-items:center; padding:20px; color:#f0f4ff; }
@@ -54,13 +54,13 @@
         </div>
     </div>
     <button class="btn" id="depositBtn">➕ Пополнить</button>
-    <div style="margin-top:10px; font-size:12px; opacity:0.4; text-align:center;">Оплата через NowPayments • USDT (TON)</div>
+    <div style="margin-top:10px; font-size:12px; opacity:0.4; text-align:center;">Через CryptoBot • USDT (TON)</div>
 </div>
 
 <div class="modal-overlay" id="depositModal">
     <div class="modal">
         <div class="modal-title">💵 Пополнение</div>
-        <div class="modal-sub">Введите сумму в USD и оплатите через USDT (TON)</div>
+        <div class="modal-sub">Введите сумму в USD, оплатите USDT (TON)</div>
 
         <div id="step1">
             <div class="form-group">
@@ -71,13 +71,14 @@
         </div>
 
         <div id="step2" class="hidden">
-            <p style="font-size:14px; opacity:0.7; margin-bottom:8px;">Оплатите указанную сумму на этот адрес:</p>
+            <p style="font-size:14px; opacity:0.7; margin-bottom:8px;">Оплатите по ссылке или переведите на адрес:</p>
             <div class="payment-info">
-                <div><strong>Адрес:</strong> <span id="payAddress">—</span></div>
+                <div><strong>Ссылка для оплаты:</strong> <a href="#" id="payLink" target="_blank" style="color:#7b9aff;">Открыть</a></div>
+                <div><strong>Адрес (если не открывается):</strong> <span id="payAddress">—</span></div>
                 <div><strong>Сумма:</strong> <span id="payAmount">0.00</span> USDT</div>
                 <div><strong>Статус:</strong> <span id="payStatus">Ожидание</span></div>
             </div>
-            <p style="font-size:13px; opacity:0.5; text-align:center;">После отправки баланс зачислится автоматически.</p>
+            <p style="font-size:13px; opacity:0.5; text-align:center;">После оплаты баланс зачислится автоматически.</p>
             <button class="btn btn-secondary mt-12" id="cancelPayBtn">Отмена</button>
         </div>
 
@@ -87,12 +88,12 @@
 
 <script>
     (function() {
-        // ---------- НОВЫЙ API-КЛЮЧ (замените на свой после теста) ----------
-        const API_KEY = 'KTA7K8E-MHCM3XC-H9F6NEM-BZ4W6TE';
-        const API_URL = 'https://api.nowpayments.io/v1';
+        // ---------- ВАШ API-ТОКЕН (уже вставлен) ----------
+        const API_KEY = '606961:AAzbHxn05Vy9VYe1HW4Y2cy6513l9igBhKf';
+        const API_URL = 'https://api.cryptobot.codes/v1';
 
         let balance = parseFloat(localStorage.getItem('usdtBalance')) || 0;
-        let paymentId = null;
+        let invoiceId = null;
         let checkInterval = null;
 
         const balanceDisplay = document.getElementById('balanceDisplay');
@@ -104,6 +105,7 @@
         const createPaymentBtn = document.getElementById('createPaymentBtn');
         const cancelPayBtn = document.getElementById('cancelPayBtn');
         const statusMsg = document.getElementById('statusMessage');
+        const payLink = document.getElementById('payLink');
         const payAddress = document.getElementById('payAddress');
         const payAmount = document.getElementById('payAmount');
         const payStatus = document.getElementById('payStatus');
@@ -127,7 +129,7 @@
             step2.classList.add('hidden');
             hideStatus();
             if (checkInterval) { clearInterval(checkInterval); checkInterval = null; }
-            paymentId = null;
+            invoiceId = null;
             createPaymentBtn.disabled = false;
         }
 
@@ -139,7 +141,8 @@
             amountInput.value = '10';
         }
 
-        async function createPayment() {
+        // Создание инвойса через CryptoBot
+        async function createInvoice() {
             const amountUSD = parseFloat(amountInput.value);
             if (!amountUSD || amountUSD <= 0) {
                 showStatus('Введите корректную сумму (больше 0)', 'error');
@@ -151,42 +154,37 @@
 
             try {
                 const payload = {
-                    price_amount: amountUSD,
-                    price_currency: 'usd',
-                    pay_currency: 'usdt',
-                    network: 'ton',
-                    order_id: `order_${Date.now()}_${Math.random().toString(36).substring(2,6)}`
+                    asset: 'USDT',
+                    amount: amountUSD,
+                    description: `Пополнение на ${amountUSD} USD`,
+                    hidden_message: 'Спасибо за оплату!',
+                    paid_btn_name: 'openBot',
+                    paid_btn_url: 'https://t.me/YourBot'
                 };
 
-                console.log('Отправка запроса:', payload);
-
-                const response = await fetch(`${API_URL}/payment`, {
+                const response = await fetch(`${API_URL}/createInvoice`, {
                     method: 'POST',
                     headers: {
-                        'x-api-key': API_KEY,
+                        'Crypto-Pay-API-Token': API_KEY,
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(payload)
                 });
 
-                const responseData = await response.json();
-                console.log('Ответ сервера:', responseData);
+                const data = await response.json();
+                console.log('Ответ CryptoBot:', data);
 
-                if (!response.ok) {
-                    let errorMsg = responseData.message || 'Ошибка создания платежа';
-                    if (responseData.errors) {
-                        errorMsg = Object.values(responseData.errors).flat().join('; ');
-                    }
-                    throw new Error(errorMsg);
+                if (!response.ok || !data.ok) {
+                    throw new Error(data.error || 'Ошибка создания инвойса');
                 }
 
-                if (!responseData.payment_id || !responseData.pay_address || !responseData.pay_amount) {
-                    throw new Error('Неполные данные от сервера: ' + JSON.stringify(responseData));
-                }
+                const invoice = data.result;
+                invoiceId = invoice.invoice_id;
 
-                paymentId = responseData.payment_id;
-                payAddress.textContent = responseData.pay_address;
-                payAmount.textContent = responseData.pay_amount.toFixed(6);
+                payLink.href = invoice.pay_url || invoice.bot_url;
+                payLink.textContent = 'Перейти к оплате';
+                payAddress.textContent = invoice.pay_address || invoice.pay_url || '—';
+                payAmount.textContent = invoice.amount + ' ' + invoice.asset;
                 payStatus.textContent = 'Ожидание оплаты...';
 
                 step1.classList.add('hidden');
@@ -194,49 +192,46 @@
                 hideStatus();
 
                 if (checkInterval) clearInterval(checkInterval);
-                checkInterval = setInterval(checkPaymentStatus, 5000);
+                checkInterval = setInterval(checkInvoiceStatus, 5000);
 
             } catch (error) {
-                console.error('Ошибка создания платежа:', error);
+                console.error('Ошибка:', error);
                 showStatus('❌ ' + error.message, 'error');
                 createPaymentBtn.disabled = false;
             }
         }
 
-        async function checkPaymentStatus() {
-            if (!paymentId) return;
+        // Проверка статуса инвойса
+        async function checkInvoiceStatus() {
+            if (!invoiceId) return;
 
             try {
-                const response = await fetch(`${API_URL}/payment/${paymentId}`, {
-                    headers: { 'x-api-key': API_KEY }
+                const response = await fetch(`${API_URL}/getInvoices?invoice_ids=${invoiceId}`, {
+                    headers: { 'Crypto-Pay-API-Token': API_KEY }
                 });
 
-                if (!response.ok) {
-                    console.warn('Status check HTTP error:', response.status);
+                const data = await response.json();
+                if (!data.ok) {
+                    console.warn('Ошибка получения статуса:', data.error);
                     return;
                 }
 
-                const data = await response.json();
-                console.log('Статус платежа:', data);
+                const invoice = data.result.items[0];
+                if (!invoice) return;
 
-                const status = data.payment_status;
-                payStatus.textContent = status;
+                payStatus.textContent = invoice.status;
 
-                if (status === 'finished' || status === 'completed' || status === 'confirmed') {
+                if (invoice.status === 'paid' || invoice.status === 'completed') {
                     if (checkInterval) { clearInterval(checkInterval); checkInterval = null; }
-                    const amountToAdd = parseFloat(data.pay_amount) || 0;
-                    if (amountToAdd > 0) {
-                        balance += amountToAdd;
-                        updateBalanceUI();
-                        showStatus(`✅ Пополнение на ${amountToAdd.toFixed(2)} USDT успешно!`, 'success');
-                    } else {
-                        showStatus('❌ Не удалось определить сумму зачисления', 'error');
-                    }
+                    const amountToAdd = parseFloat(invoice.amount) || 0;
+                    balance += amountToAdd;
+                    updateBalanceUI();
+                    showStatus(`✅ Пополнение на ${amountToAdd.toFixed(2)} USDT успешно!`, 'success');
                     createPaymentBtn.disabled = false;
                     setTimeout(closeModal, 3000);
-                } else if (status === 'expired' || status === 'failed' || status === 'refunded') {
+                } else if (invoice.status === 'expired' || invoice.status === 'failed') {
                     if (checkInterval) { clearInterval(checkInterval); checkInterval = null; }
-                    showStatus('❌ Платёж не был оплачен или истёк. Попробуйте снова.', 'error');
+                    showStatus('❌ Счёт истёк или оплата не прошла.', 'error');
                     createPaymentBtn.disabled = false;
                     setTimeout(() => {
                         if (modal.classList.contains('active')) {
@@ -254,9 +249,9 @@
         depositBtn.addEventListener('click', openModal);
         cancelPayBtn.addEventListener('click', closeModal);
         modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
-        createPaymentBtn.addEventListener('click', createPayment);
+        createPaymentBtn.addEventListener('click', createInvoice);
 
-        console.log('Скрипт с новым API-ключом загружен.');
+        console.log('Скрипт с токеном загружен. Если не работает — проверьте, что токен получен в @CryptoBot.');
     })();
 </script>
 </body>
